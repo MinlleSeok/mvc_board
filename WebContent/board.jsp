@@ -25,52 +25,6 @@
 </style>
 </head>
 
-<%
-	request.setCharacterEncoding("UTF-8");
-
-	try {
-		String driverName = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:XE";
-		ResultSet rs = null;
-		
-		Class.forName(driverName);
-		Connection con = DriverManager.getConnection(url, "board", "12345");
-		
-		out.println("Oracle Database db connected");
-		Statement stmt = con.createStatement();
-		String sql = "SELECT * FROM board order by idx desc";
-		
-		rs = stmt.executeQuery(sql);
-
-		ArrayList<Board> ar = new ArrayList<Board>();
-		Board bd = null;
-		
-		while(rs.next()){
-			
-			bd = new Board();
-			bd.setIdx(rs.getInt("idx"));
-			bd.setContent(rs.getString("title"));
-			bd.setCount(rs.getInt("count"));
-			bd.setRegdate(rs.getString("regdate"));
-			bd.setTitle(rs.getString("title"));
-			bd.setWriter(rs.getString("writer"));
-			ar.add(bd);
-			
-		}
-		
-		request.setAttribute("array", ar);
-		
-		stmt.close();
-		rs.close();
-		con.close();
-		
-	} catch (Exception e){
-		out.println("board.jsp 오류");
-		out.println(e.getMessage());
-		e.printStackTrace();	
-	}
-
-%>
 
 <body>
 
