@@ -8,6 +8,9 @@ public class Board {
 	private String regdate;
 	private int count;
 	private String content;
+	private String regip;
+	private String filename;
+	private String thumbImg;
 	
 	public int getIdx() {
 		return idx;
@@ -44,5 +47,23 @@ public class Board {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getRegip() {
+		return regip;
+	}
+	public void setRegip(String regip) {
+		this.regip = regip;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public String getThumbImg() {
+		return thumbImg;
+	}
+	public void setThumbImg(String thumbImg) {
+		this.thumbImg = thumbImg;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }

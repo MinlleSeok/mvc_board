@@ -68,6 +68,7 @@ public class ControllerAction extends HttpServlet {
 						   throws ServletException, IOException {
 		String view = null;
 		CommandAction com = null;
+		request.setCharacterEncoding("UTF-8");
 		
 		try {
 			String command = request.getRequestURI();

@@ -5,35 +5,49 @@
 <head>
 <meta charset="UTF-8">
 <title>본격 게시판 - 글쓰기</title>
+
 </head>
 <body>
-	<form action="insert.jsp" method="post"> <!-- onsubmit="return formCheck();" -->
+	<form action="insert.do" method="post" enctype="multipart/form-data"> <!-- onsubmit="return formCheck();" -->
 		제목 : <input type="text" name="title" /><br/>
 		작성자 : <input type="text" name="writer" /><br/>
-		날짜 : <input type="text" name="regdate" /><br/>
-		내용 : <textarea rows="10" cols="20" name="content"></textarea><br/>
+		파일 : <input type="file" name="filename" accept="image/*" id="myFile" onchange="fileCheck(event)"><br/>
+		내용 : <div style="width:300px; height:auto;"><div contentEditable="true" id="content2"></div></div><br/>
 		<input type="submit" />
 		
 	</form>
 	<script>
-		//alert(document.forms[0].title.name);
+	/*
+	if (x.addEventListener) {
+	  x.addEventListener("change", fileCheck);
+	} else if (x.attachEvent) {
+	  x.attachEvent("change", fileCheck);
+	}
+	*/
+		function fileCheck(event) {
+			var x = document.getElementById("myFile");
+			var txt = "";
+			var input = event.target;
+				
+				var reader = new FileReader();
+
+				reader.onload = function(){
+				      var dataURL = reader.result;
+				      var output = document.getElementById('content2');
+				      output.innerHTML +=  "<br/><img src='"+dataURL+"' width='200px' height='auto'><br/>";
+				      output.focus();
+				    };
+				    reader.readAsDataURL(input.files[0]);
+		}	
+	
 		function formCheck() {
-			// alert(document.forms[0].title.value);
+
 			
 			var title = document.forms[0].title.value;
 			var writer = document.forms[0].writer.value;
 			var regdate = document.forms[0].regdate.value;
 			var content = document.forms[0].content.value;
-			
-			/* var length = document.forms[0].length-1;
-			
-			for(var i = 0; i < length; i++){
-				if(document.forms[0][i].value == null || document.forms[0][i].value == ""){
-					alert(document.forms[0][i].name +"을/를 입력하세요.");
-					document.forms[0][i].focus();
-					return false;
-				}
-			} */
+
 			
 			if(title == null || title == ""){
 				alert('제목을 입력하세요');
@@ -54,16 +68,7 @@
 				document.forms[0].content.focus();
 				return false;
 			}
-			
-			if (regdate == null || regdate == ""){
-				alert('날짜를 입력하세요');
-				document.forms[0].regdate.focus();
-				return false;
-			} else if (regdate.match(/^\d\d\d\d\d\d+$/ig) == null){
-				alert('숫자 형식(6자리)으로 입력하세요');
-				document.forms[0].regdate.focus();
-				return false;
-			}
+
 		}
 	</script>
 </body>

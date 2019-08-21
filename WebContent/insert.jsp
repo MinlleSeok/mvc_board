@@ -69,7 +69,7 @@
 		out.println(e.getMessage());
 		e.printStackTrace();
 	} finally {
-		request.setAttribute("url", "board.jsp");
+		request.setAttribute("url", "list.do");
 		// out.print("<script>location.href='index.jsp';</script>");
 	}
 	}

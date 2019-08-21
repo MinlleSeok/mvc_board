@@ -10,56 +10,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>본격 게시판 - 게시글 리스트</title>
-<%
-	String idx = request.getParameter("idx");
-	try {
-		String driverName = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:XE";
-		ResultSet rs = null;
-		
-		Class.forName(driverName);
-		Connection con = DriverManager.getConnection(url,"board","12345");
-		
-		Statement stmt = con.createStatement();
-		String sql = "select * from board where idx = "+idx;
-		rs = stmt.executeQuery(sql);
-		while(rs.next()){
-			request.setAttribute("idx",rs.getString("idx"));
-			request.setAttribute("writer",rs.getString("writer"));
-			request.setAttribute("regdate",rs.getString("regdate"));
-			request.setAttribute("count",rs.getString("count"));
-			request.setAttribute("title",rs.getString("title"));
-			request.setAttribute("content",rs.getString("content"));
-		}
-		con.close();
-		
-	} catch (Exception e) {
-		
+<script>
+	function onDownload(idx) {
+		var o = document.getElementById("ifrm_filedown");
+		o.src = "download.do?idx="+idx;
 	}
-%>
+</script>
 <body>
 	<h1>게시글 조회</h1>
 	<table border="1">
 		<tr>
 			<th>번호</th>
-			<td>${idx}</td>
+			<td>${article.idx}</td>
 			<th>작성자</th>
-			<td>${writer}</td>
+			<td>${article.writer}</td>
+			<th>ip</th>
+			<td>${article.regip}</td>
 			<th>날짜</th>
-			<td>${regdate}</td>
+			<td>${article.regdate}</td>
 			<th>조회수</th>
-			<td>${count}</td>
+			<td>${article.count}</td>
 		</tr>
 		<tr>
 			<th colspan="2">제목</th>
-			<td colspan="6">${title}</td>
+			<td colspan="6">${article.title}</td>
 		</tr>
 		<tr>
 			<th colspan="2">내용</th>
-			<td colspan="6">${content}</td>
+			<td colspan="6">${article.content}</td>
+		</tr>
+		<tr>
+			<th colspan="2">첨부파일</th>
+			<td colspan="6">
+				<a href="#" onclick="onDownload('${article.idx}')">${article.filename}</a>
+			</td>
 		</tr>
 	</table>
-	<a href="delete.jsp?idx=${idx}">게시글삭제</a>
-	<a href="board.jsp">목록으로</a>
+	<a href="delete.do?idx=${article.idx}">게시글삭제</a>
+	<a href="list.do">목록으로</a>
+	<iframe id="ifrm_filedown" style="position:absolute; z-index:1; visibility: hidden;"></iframe>
 </body>
 </html>
