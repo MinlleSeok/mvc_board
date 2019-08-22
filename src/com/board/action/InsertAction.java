@@ -25,6 +25,8 @@ public class InsertAction implements CommandAction {
 		///////////////////////////////////////////////////
 		
 		request.setCharacterEncoding("UTF-8");
+		response.setContentType("contentType=text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
 		MultipartRequest multi = null;
 		
@@ -37,7 +39,7 @@ public class InsertAction implements CommandAction {
 		String content = "";
 		String filename = "";
 		String regip = request.getRemoteAddr();
-		if(request.getParameter("filename") != ""){
+
 		try {
 			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
 			title = multi.getParameter("title"); // "제목입니다.";
@@ -51,18 +53,10 @@ public class InsertAction implements CommandAction {
 			e.printStackTrace();
 			
 		}
-		
-		} else {
-		title = request.getParameter("title"); // "제목입니다.";
-		writer = request.getParameter("writer"); // "작성자이름";
-		content = request.getParameter("content");
-		if(request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-		}
-		}
+
+		System.out.println("asd:"+multi.getParameter("content"));
 		System.out.println(filename);
 		PrintWriter out = response.getWriter();
-		response.setContentType("contentType=text/html;charset=UTF-8");
 		
 		///////////////////////////////////////////////////
 		// 유효성 검사
@@ -79,10 +73,8 @@ public class InsertAction implements CommandAction {
 		if(writer == "" || writer == null) {
 			checkMsg += "writer가 null입니다. \\n";
 			check = true;
-		} else if(!Pattern.matches("^[_0-9a-zA-Z-]+@[0-9a-zA-Z-]+(.[_0-9a-zA-Z-]+)*$", writer)) {
-			checkMsg += "이메일 형식이 아닙니다. \\n";
-			check = true;
 		}
+		
 		if(content == "" || content == null){ 
 			checkMsg += "content가 null입니다.";
 			check = true;
@@ -97,17 +89,19 @@ public class InsertAction implements CommandAction {
 	
 			Board article = new Board();
 			article.setContent(content);
+			System.out.println(content);
 			article.setCount(count);
 			article.setRegip(regip);
 			article.setTitle(title);
 			article.setWriter(writer);
-			if(filename != null)
+			if(filename != null) {
 			article.setFilename(filename);
+			}
 			BoardDAO.getInstance().insertArticle(article);
 		}
 		
 		
-		request.setAttribute("page", page);
+		//request.setAttribute("page", page);
 		
 		return "list.do";
 	}

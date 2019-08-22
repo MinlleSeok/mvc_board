@@ -18,10 +18,10 @@ public class CommentsDAO extends IbatisDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<Comments> getCommentsList(int page) throws SQLException {
+	public ArrayList<Comments> getCommentsList(int boNum, int page) throws SQLException {
 		
 		ArrayList<Comments> commentsList = null;
-		commentsList = (ArrayList<Comments>)GetDB().queryForList("getCommentsList", null, page, 10);
+		commentsList = (ArrayList<Comments>)GetDB().queryForList("getCommentsList", boNum, page, 10);
 		
 		return commentsList;
 	}

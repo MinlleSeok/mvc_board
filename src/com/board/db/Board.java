@@ -1,11 +1,13 @@
 package com.board.db;
 
+import java.sql.Timestamp;
+
 public class Board {
 
 	private int idx;
 	private String title;
 	private String writer;
-	private String regdate;
+	private Timestamp regdate;
 	private int count;
 	private String content;
 	private String regip;
@@ -30,10 +32,10 @@ public class Board {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public String getRegdate() {
+	public Timestamp getRegdate() {
 		return regdate;
 	}
-	public void setRegdate(String regdate) {
+	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
 	}
 	public int getCount() {

@@ -8,15 +8,15 @@
 	<typeAlias alias="int" type="java.lang.Integer" />
 	<typeAlias alias="comment" type="com.comments.db.Comments" />
 	
-	<select id="getCommentsList" resultClass="comment">
-		select * from comments order by num desc
+	<select id="getCommentsList" parameterClass="int" resultClass="comment">
+		select * from comments where boNum = #boNum# order by num desc
 	</select>
 	
 	<insert id="insertComment" parameterClass="comment">
 		INSERT INTO COMMENTS
-			(num, boNum, userNum, content, regdate)
+			(boNum, userNum, content, regdate)
 		VALUES
-			(com_seq.nextval, #boNum#, #userNum#, #content#, sysdate)
+			(#boNum#, #userNum#, #content#, now())
 	</insert>
 
 </sqlMap>

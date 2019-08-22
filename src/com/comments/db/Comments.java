@@ -1,6 +1,6 @@
 package com.comments.db;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Comments {
 	
@@ -8,7 +8,7 @@ public class Comments {
 	private int boNum;
 	private int userNum;
 	private String content;
-	private Date regdate;
+	private Timestamp regdate;
 	
 	public int getNum() {
 		return num;
@@ -34,10 +34,10 @@ public class Comments {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getRegdate() {
+	public Timestamp getRegdate() {
 		return regdate;
 	}
-	public void setRegdate(Date regdate) {
+	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
 	}
 	

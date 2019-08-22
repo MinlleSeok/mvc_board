@@ -8,13 +8,18 @@
 
 </head>
 <body>
-	<form action="insert.do" method="post" enctype="multipart/form-data"> <!-- onsubmit="return formCheck();" -->
+	<form action="insert.do" method="post" enctype="multipart/form-data" onsubmit='return formCheck();'>
 		제목 : <input type="text" name="title" /><br/>
 		작성자 : <input type="text" name="writer" /><br/>
-		파일 : <input type="file" name="filename" accept="image/*" id="myFile" onchange="fileCheck(event)"><br/>
-		내용 : <div style="width:300px; height:auto;"><div contentEditable="true" id="content2"></div></div><br/>
-		<input type="submit" />
-		
+		파일 : <input type="file" name="filename" multiple accept="image/*" id="fileElem" style="display:none" onchange="handleFiles(this.files)"><br/>
+		<a href="#" id="fileSelect">Select some files</a><br/>
+		<div id="fileList">
+		<p>No files selected!</p>
+		</div><br/>
+		내용 : <iframe id="content2" src="about:blank"></iframe><br/>
+		<input type="submit" value="작성" />
+		<textarea rows="5" cols="20" name="content" style="display:none;"></textarea>
+
 	</form>
 	<script>
 	/*
@@ -24,6 +29,72 @@
 	  x.attachEvent("change", fileCheck);
 	}
 	*/
+
+	var xE = {};
+	
+	window.onload = function() {
+		/*document.forms[0].innerHTML = "제목 : <input type='text' name='title' /><br/>"
+		+ "작성자 : <input type='text' name='writer' /><br/>"
+		+ "파일 : <input type='file' id='fileElem' multiple accept='image/*' style='display:none' onchange='handleFiles(this.files)'><br/>"
+		+ "<a href='#' id='fileSelect'>Select some files</a><br/>"
+		+ "<div id='fileList'>"
+		+ "<p>No files selected!</p>"
+		+ "</div><br/>"
+		+ "내용 : <iframe id='content2' src='about:blank'></iframe><br/>"
+		+ "<input type='submit' value='작성' />";*/
+		
+		xE.w = document.getElementById("content2").contentWindow;
+		xE.d = xE.w.document;
+		xE.d.write("<!DOCTYPE html><html><head></head><body></body></html>");
+		xE.d.designMode = "on";
+		
+		window.URL = window.URL || window.webkitURL;
+
+		const fileSelect = document.getElementById("fileSelect"),
+		    fileElem = document.getElementById("fileElem"),
+		    fileList = document.getElementById("fileList");
+
+		fileSelect.addEventListener("click", function (e) {
+		  if (fileElem) {
+		    fileElem.click();
+		  }
+		  e.preventDefault(); // prevent navigation to "#"
+		}, false);
+
+	}
+	
+	
+
+	function handleFiles(files) {
+	  if (!files.length) {
+	    fileList.innerHTML = "<p>No files selected!</p>";
+	  } else {
+	    fileList.innerHTML = "";
+	    const list = document.createElement("ul");
+	    fileList.appendChild(list);
+	    for (let i = 0; i < files.length; i++) {
+	      const li = document.createElement("li");
+	      list.appendChild(li);
+	      
+	      const img = document.createElement("img");
+	      img.src = window.URL.createObjectURL(files[i]);
+	      img.height = 60;
+	      img.onload = function() {
+	        window.URL.revokeObjectURL(this.src);
+	      }
+	      li.appendChild(img);
+	      const info = document.createElement("span");
+	      info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
+	      li.appendChild(info);
+	    }
+	  }
+	}
+	
+		function insertContent() {
+			var content2 = xE.d.getElementsByTagName("body")[0].innerHTML;
+			document.forms[0].content.value = content2;	
+		}
+	
 		function fileCheck(event) {
 			var x = document.getElementById("myFile");
 			var txt = "";
@@ -33,7 +104,7 @@
 
 				reader.onload = function(){
 				      var dataURL = reader.result;
-				      var output = document.getElementById('content2');
+				      var output = xE.d.getElementsByTagName("body")[0];
 				      output.innerHTML +=  "<br/><img src='"+dataURL+"' width='200px' height='auto'><br/>";
 				      output.focus();
 				    };
@@ -41,28 +112,29 @@
 		}	
 	
 		function formCheck() {
-
+			insertContent();
 			
 			var title = document.forms[0].title.value;
 			var writer = document.forms[0].writer.value;
-			var regdate = document.forms[0].regdate.value;
+			// var filename2 = document.forms[0].filename2.files[0];
+										
+										
 			var content = document.forms[0].content.value;
-
+			// document.forms[0].filename.files[0] = filename2;
+			//content = content2;
 			
 			if(title == null || title == ""){
 				alert('제목을 입력하세요');
 				document.forms[0].title.focus();
 				return false;
 			}
+			
 			if (writer == null || writer == ""){
 				alert('작성자를 입력하세요');
 				document.forms[0].writer.focus();
 				return false;
-			} else if(writer.match(/^(\w+)@(\w+)[.](\w+)$/ig) == null){
-				alert('이메일 형식으로 입력하세요');
-				document.forms[0].writer.focus();
-				return false;
 			}
+			
 			if (content == null || content == ""){
 				alert('내용을 입력하세요');
 				document.forms[0].content.focus();

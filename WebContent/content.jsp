@@ -64,7 +64,7 @@
 		</tr>
 		  -->
 	</table>
-	<a href="delete.do?idx=${article.idx}">게시글삭제</a>
+	<a href="delete.do?idx="${article.idx}">게시글삭제</a>
 	<a href="list.do">목록으로</a>
 	<iframe id="ifrm_filedown" style="position:absolute; z-index:1; visibility: hidden;"></iframe>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -77,7 +77,7 @@
 			xE.d.write("<!DOCTYPE html><html><head></head><body></body></html>");
 			xE.d.designMode = "on";
 			xE.w.focus();
-			printComment(${article.idx});
+			printComment('${article.idx}');
 			
 		}
 		
@@ -100,11 +100,12 @@
 		
 		function printComment(boNum) {
 			$.ajax({
-				url: "print.co",
+				url: "print.co?boNum="+boNum,
+				cache : false,
 				success : function(data) {
 					console.log(data);
 					var obj = JSON.parse(data);
-					var comList = $("#comments");
+					var comList = $("table");
 					$(".comment").remove();
 					console.log(comList);
 					var i;

@@ -20,13 +20,17 @@ public class ListAction implements CommandAction {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
 		request.setCharacterEncoding("UTF-8");
+		response.setContentType("contentType=text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
+		String boNum2 = request.getParameter("boNum");
+		int boNum = Integer.parseInt(boNum2);
 		int page = 0;
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
-		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(page);
+		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(boNum, page);
 		
 		JSONObject obj = new JSONObject();
 		

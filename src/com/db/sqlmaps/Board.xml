@@ -18,9 +18,9 @@
 	
 	<insert id="insertArticle" parameterClass="board">
 		INSERT INTO BOARD
-			(IDX, TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP, FILENAME)
+			(TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP, FILENAME)
 		VALUES
-			(board_seq.nextval, #title#, #writer#, sysdate, #count#, #content#, #regip#, #filename#)
+			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#)
 	</insert>
 	
 	<update id="setArticleCount" parameterClass="board">

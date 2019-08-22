@@ -32,7 +32,7 @@ public class BoardDAO2 extends CommonDAO {
 			article.setIdx(rs.getInt("idx"));
 			article.setTitle(rs.getString("title"));
 			article.setWriter(rs.getString("writer"));
-			article.setRegdate(rs.getString("regdate"));
+			article.setRegdate(rs.getTimestamp("regdate"));
 			articleList.add(article);
 		}
 		closeConnection();
