@@ -1,0 +1,34 @@
+package com.comments.db;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.common.db.IbatisDAO;
+
+public class CommentsDAO extends IbatisDAO {
+
+	public static CommentsDAO getInstance() {
+		
+		CommentsDAO _instance = new CommentsDAO();
+		
+		_instance.SetDB();
+		
+		return _instance;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Comments> getCommentsList(int page) throws SQLException {
+		
+		ArrayList<Comments> commentsList = null;
+		commentsList = (ArrayList<Comments>)GetDB().queryForList("getCommentsList", null, page, 10);
+		
+		return commentsList;
+	}
+
+	public void insertComment(Comments comments) throws SQLException {
+		// TODO Auto-generated method stub
+		GetDB().insert("insertComment", comments);
+	}
+
+}

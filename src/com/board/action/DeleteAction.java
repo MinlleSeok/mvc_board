@@ -5,9 +5,9 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.board.bean.Board;
-import com.board.controller.CommandAction;
-import com.board.dao.BoardDAO;
+import com.board.db.Board;
+import com.board.db.BoardDAO;
+import com.controller.action.CommandAction;
 
 public class DeleteAction implements CommandAction {
 

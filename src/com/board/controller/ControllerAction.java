@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.controller.action.CommandAction;
+
 public class ControllerAction extends HttpServlet {
 	
 	private Map commandMap = new HashMap(); // 명령어와 명령어 처리 클래스를 쌍으로 저장
