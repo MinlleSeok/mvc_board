@@ -9,6 +9,9 @@ public class Comments {
 	private int userNum;
 	private String content;
 	private Timestamp regdate;
+	private int reNum;
+	private int reDep;
+	private int reOdr;
 	
 	public int getNum() {
 		return num;
@@ -39,6 +42,24 @@ public class Comments {
 	}
 	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
+	}
+	public int getReNum() {
+		return reNum;
+	}
+	public void setReNum(int reNum) {
+		this.reNum = reNum;
+	}
+	public int getReDep() {
+		return reDep;
+	}
+	public void setReDep(int reDep) {
+		this.reDep = reDep;
+	}
+	public int getReOdr() {
+		return reOdr;
+	}
+	public void setReOdr(int reOdr) {
+		this.reOdr = reOdr;
 	}
 	
 }

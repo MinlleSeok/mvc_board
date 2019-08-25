@@ -62,7 +62,9 @@
 		<tr id="commentsList">
 			<td colspan="10">코멘트</td>
 		</tr>
-		  -->
+		 -->
+		
+		 
 	</table>
 	<a href="delete.do?idx="${article.idx}">게시글삭제</a>
 	<a href="list.do">목록으로</a>
@@ -111,10 +113,108 @@
 					var i;
 					for(i in obj.comments) {
 						comList.append("<tr class='comment'>"
-									  +	"<td colspan='3'>"+obj.comments[i].userNum+"</td>"
-									  + "<td colspan='7'>"+obj.comments[i].content+"</td></tr>");
+									  +	"<td colspan='2'>"+obj.comments[i].userNum+"</td>"
+									  + "<td colspan='6' style='padding-left: "+(obj.comments[i].reDep)*10+"px;'>"+obj.comments[i].content+"</td>"
+									  + "<td colspan='2' id='"+obj.comments[i].num+"'></td></tr>");
+									  if (obj.comments[i].reDep == 0) {	$("#"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+")'>답글</a><a href='#'>수정</a> <a href='#'>삭제</a>");}
+									  else {$("#"+obj.comments[i].num).html("<a href='#'>수정</a> <a href='#'>삭제</a>");}
 						console.log(obj.comments[i].content);
 					}
+				}
+				
+			});
+		}
+		
+		function reComment(meee,boNum,reNum) {
+			var comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reCommentInsert("+boNum+","+reNum+");'>댓글</button></td></tr>";
+			if($("#reComment"+reNum).length > 0){
+				
+				var offset = $(meee).offset();
+		        $("html").animate({scrollTop : offset.top}, 200);
+
+		        $("#reComment"+reNum).find('td > div').stop().slideUp("slow", function(){
+
+		        	$("#reComment"+reNum).remove();
+
+		        	 });
+		        
+			} else {
+				
+				var offset = $(meee).offset();
+		        $("html").animate({scrollTop : offset.top}, 200);
+		        
+		        $(meee).parent().parent().after(comhtml);
+		        $("#reComment"+reNum).children('td').wrapInner('<div style="display: none;" />');
+		        $("#reComment"+reNum).show().find('td > div').stop().slideDown("slow");
+		        
+		        var cc = {};
+
+					cc.w = document.getElementById("reComment"+reNum).getElementsByTagName("iframe")[0].contentWindow;
+					cc.d = cc.w.document;
+					cc.d.write("<!DOCTYPE html><html><head></head><body></body></html>");
+					cc.d.designMode = "on";
+					cc.w.focus();
+			}
+			/*
+			$.ajax({
+				url: "insert.co",
+				type: "post",
+				datatype : "json",
+				data : {"content":content,
+						"boNum":boNum},
+				success : function(data) {
+					printComment(boNum);
+				}
+				
+			});*/
+		}
+		
+		function reCommentInsert(boNum,reNum) {
+			var content = document.getElementById("reComment"+reNum).getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("BODY")[0].innerHTML;
+			$.ajax({
+				url: "reInsert.co",
+				type: "post",
+				datatype : "json",
+				data : {"content":content,
+						"boNum":boNum,
+						"reNum":reNum},
+				success : function(data) {
+					printComment(boNum);
+					$("#reComment"+reNum).find('td > div').stop().slideUp("slow", function(){
+
+			        	$("#reComment"+reNum).remove();
+
+			        	 });
+				}
+				
+			});
+		}
+		
+		function modifyComment(boNum) {
+			var content = xE.d.getElementsByTagName("BODY")[0].innerHTML;
+			$.ajax({
+				url: "insert.co",
+				type: "post",
+				datatype : "json",
+				data : {"content":content,
+						"boNum":boNum},
+				success : function(data) {
+					printComment(boNum);
+				}
+				
+			});
+		}
+		
+		function deleteComment(boNum) {
+			var content = xE.d.getElementsByTagName("BODY")[0].innerHTML;
+			$.ajax({
+				url: "insert.co",
+				type: "post",
+				datatype : "json",
+				data : {"content":content,
+						"boNum":boNum},
+				success : function(data) {
+					printComment(boNum);
 				}
 				
 			});

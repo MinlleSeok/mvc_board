@@ -45,6 +45,7 @@ public class ListAction implements CommandAction {
 			cObject.put("userNum", commentsList.get(i).getUserNum());
 			cObject.put("content", commentsList.get(i).getContent());
 			cObject.put("regdate", commentsList.get(i).getRegdate().toString());
+			cObject.put("reDep", commentsList.get(i).getReDep());
 			
 			cArray.add(cObject);
 		}

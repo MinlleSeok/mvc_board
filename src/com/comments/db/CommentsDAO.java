@@ -29,6 +29,15 @@ public class CommentsDAO extends IbatisDAO {
 	public void insertComment(Comments comments) throws SQLException {
 		// TODO Auto-generated method stub
 		GetDB().insert("insertComment", comments);
+		GetDB().update("updateComment", null);
+	}
+
+	public void reInsertComment(Comments comments) throws SQLException {
+		GetDB().insert("insertReComment", comments);
+		int reNum = comments.getReNum();
+		int sum = (int) GetDB().queryForObject("selectReDepOdr",reNum);
+		GetDB().update("updateReComment", sum);
+		
 	}
 
 }

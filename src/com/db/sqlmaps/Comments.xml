@@ -9,14 +9,42 @@
 	<typeAlias alias="comment" type="com.comments.db.Comments" />
 	
 	<select id="getCommentsList" parameterClass="int" resultClass="comment">
-		select * from comments where boNum = #boNum# order by num desc
+		select * from comments where boNum = #boNum# order by reNum desc, reOdr asc, regdate desc
 	</select>
 	
 	<insert id="insertComment" parameterClass="comment">
+		
 		INSERT INTO COMMENTS
 			(boNum, userNum, content, regdate)
 		VALUES
 			(#boNum#, #userNum#, #content#, now())
-	</insert>
 
+	</insert>
+	
+	<update id="updateComment">
+		UPDATE	COMMENTS
+			SET		reNum = LAST_INSERT_ID()
+			WHERE	num = LAST_INSERT_ID()
+	</update>
+	
+	<insert id="insertReComment" parameterClass="comment">
+		INSERT INTO COMMENTS
+			(boNum, userNum, content, regdate, reNum)
+		VALUES
+			(#boNum#, #userNum#, #content#, now(), #reNum#)
+	</insert>
+	
+	<select id="selectReDepOdr" parameterClass="int" resultClass="int">
+		select sum(1) from comments where reNum = #reNum#
+	</select>
+	
+	<update id="updateReComment" parameterClass="int">
+		<![CDATA[
+		UPDATE	COMMENTS
+			SET		reDep = #sum#-1
+					, reOdr = #sum#-1
+			WHERE	num = LAST_INSERT_ID()
+			]]>
+	</update>
+	
 </sqlMap>
