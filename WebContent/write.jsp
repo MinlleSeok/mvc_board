@@ -14,7 +14,7 @@
 		파일 : <input type="file" name="filename" multiple accept="image/*" id="fileElem" style="display:none" onchange="handleFiles(this.files)"><br/>
 		<a href="#" id="fileSelect">Select some files</a><br/>
 		<div id="fileList">
-		<p>No files selected!</p>
+		<p id="nothing">No files selected!</p>
 		</div><br/>
 		내용 : <iframe id="content2" src="about:blank"></iframe><br/>
 		<input type="submit" value="작성" />
@@ -66,11 +66,21 @@
 	
 
 	function handleFiles(files) {
+		
+	
 	  if (!files.length) {
-	    fileList.innerHTML = "<p>No files selected!</p>";
+	    
+
+	    var html = "No files selected!";
+	    var newElement = document.createElement("p");
+	    newElement.setAttribute('id', 'nothing');
+	    newElement.innerHTML = html;
+	    fileList.appendChild(newElement);
+	    
 	  } else {
-	    fileList.innerHTML = "";
-	    const list = document.createElement("ul");
+		  var deleteNone = document.getElementById("nothing");
+		  deleteNone.parentNode.removeChild(deleteNone);
+		  const list = document.createElement("ul");
 	    fileList.appendChild(list);
 	    for (let i = 0; i < files.length; i++) {
 	      const li = document.createElement("li");
@@ -86,6 +96,22 @@
 	      const info = document.createElement("span");
 	      info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
 	      li.appendChild(info);
+	      
+	      var formData = new FormData(document.forms[0]);
+	      formData.append("fileObj",files[i]);
+	      
+	      
+	      var xhttp = new XMLHttpRequest();
+	      xhttp.onreadystatechange = function() {
+	          if (this.readyState == 4 && this.status == 200) {
+	             // Typical action to be performed when the document is ready:
+	             var output = xE.d.getElementsByTagName("body")[0];
+				      output.innerHTML +=  "<br/><img src='upload/"+xhttp.responseText+"' width='200px' height='auto'><br/>";
+	          }
+	      };
+	      xhttp.open("POST", "file.do", true);
+	      xhttp.send(formData);
+	      
 	    }
 	  }
 	}

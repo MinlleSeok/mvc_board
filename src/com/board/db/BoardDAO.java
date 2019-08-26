@@ -51,6 +51,11 @@ public class BoardDAO extends IbatisDAO {
 		GetDB().delete("deleteArticle", idx);
 		
 	}
+
+	public void insertFile(Files file) throws SQLException {
+		GetDB().insert("insertFile", file);
+		
+	}
 	
 	
 	

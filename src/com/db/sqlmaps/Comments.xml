@@ -8,34 +8,44 @@
 	<typeAlias alias="int" type="java.lang.Integer" />
 	<typeAlias alias="comment" type="com.comments.db.Comments" />
 	
-	<select id="getCommentsList" parameterClass="int" resultClass="comment">
-		select * from comments where boNum = #boNum# order by reNum desc, reOdr asc, regdate desc
+	<select id="getCommentsList" parameterClass="int" resultClass="comment" remapResults="true">
+		<![CDATA[
+		SELECT * FROM comments WHERE boNum = #boNum# ORDER BY reNum DESC, reOdr ASC, regdate DESC
+		]]>
 	</select>
 	
 	<insert id="insertComment" parameterClass="comment">
-		
+		<![CDATA[
 		INSERT INTO COMMENTS
 			(boNum, userNum, content, regdate)
 		VALUES
 			(#boNum#, #userNum#, #content#, now())
-
+		]]>
 	</insert>
 	
 	<update id="updateComment">
+		<![CDATA[
 		UPDATE	COMMENTS
 			SET		reNum = LAST_INSERT_ID()
+			        ,reDep = 0
+			        ,reOdr = 0
 			WHERE	num = LAST_INSERT_ID()
+			]]>
 	</update>
-	
+
 	<insert id="insertReComment" parameterClass="comment">
+		<![CDATA[
 		INSERT INTO COMMENTS
 			(boNum, userNum, content, regdate, reNum)
 		VALUES
 			(#boNum#, #userNum#, #content#, now(), #reNum#)
+			]]>
 	</insert>
 	
 	<select id="selectReDepOdr" parameterClass="int" resultClass="int">
+		<![CDATA[
 		select sum(1) from comments where reNum = #reNum#
+		]]>
 	</select>
 	
 	<update id="updateReComment" parameterClass="int">
