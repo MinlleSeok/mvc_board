@@ -20,13 +20,15 @@ public class ListAction implements CommandAction {
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
+		String moNum2 = request.getParameter("moNum");
+		int moNum = Integer.parseInt(moNum2);
 		
-		ArrayList<Board> articleList = BoardDAO.getInstance().getArticleList(page);
+		ArrayList<Board> articleList = BoardDAO.getInstance().getArticleList(page,moNum);
 		
 		request.setAttribute("array", articleList);
 		request.setAttribute("page", page);
-		
-		return "board.jsp";
+		request.setAttribute("moNum", moNum);
+		return "board.jsp?moNum="+moNum;
 	}
 
 }

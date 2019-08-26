@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +22,12 @@ public class DownloadAction implements CommandAction {
 		request.setCharacterEncoding("UTF-8");
 		
 		int idx = Integer.parseInt(request.getParameter("idx"));
-		
-		Board article = BoardDAO.getInstance().getArticle(idx);
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("idx", idx);
+		map.put("moNum", moNum);
+		Board article = BoardDAO.getInstance().getArticle(map);
 		String filename = article.getFilename();
 		
 		String uploadFileName = request.getRealPath("/upload") + "/" + filename;

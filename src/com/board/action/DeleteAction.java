@@ -1,6 +1,7 @@
 package com.board.action;
 
 import java.io.File;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,11 @@ public class DeleteAction implements CommandAction {
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		int idx = Integer.parseInt(request.getParameter("idx"));
-		
-		Board article = BoardDAO.getInstance().getArticle(idx);
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("idx", idx);
+		map.put("moNum", moNum);
+		Board article = BoardDAO.getInstance().getArticle(map);
 		String filename = article.getFilename();
 		String uploadFileName = request.getRealPath("/upload")+"/"+filename;
 		

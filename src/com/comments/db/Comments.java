@@ -12,6 +12,7 @@ public class Comments {
 	private int reNum;
 	private int reDep;
 	private int reOdr;
+	private int moNum;
 	
 	public int getNum() {
 		return num;
@@ -60,6 +61,12 @@ public class Comments {
 	}
 	public void setReOdr(int reOdr) {
 		this.reOdr = reOdr;
+	}
+	public int getMoNum() {
+		return moNum;
+	}
+	public void setMoNum(int moNum) {
+		this.moNum = moNum;
 	}
 	
 }

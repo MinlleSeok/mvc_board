@@ -5,23 +5,24 @@
 
 <sqlMap namespace="Board">
 	<typeAlias alias="str" type="java.lang.String" />
+	<typeAlias alias="hmap" type="java.util.HashMap" />
 	<typeAlias alias="int" type="java.lang.Integer" />
 	<typeAlias alias="board" type="com.board.db.Board" />
 	<typeAlias alias="file" type="com.board.db.Files" />
 	
-	<select id="getArticleList" resultClass="board">
-		select * from board order by idx desc
+	<select id="getArticleList" parameterClass="int" resultClass="board">
+		select * from board where moNum = #moNum# order by idx desc
 	</select>
 	
-	<select id="getArticle" parameterClass="int" resultClass="board">
-		select * from board where idx = #idx#
+	<select id="getArticle" parameterClass="hmap" resultClass="board">
+		select * from board where idx = #idx# and moNum = #moNum#
 	</select>
 	
 	<insert id="insertArticle" parameterClass="board">
 		INSERT INTO BOARD
-			(TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP, FILENAME)
+			(TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP, FILENAME, moNum)
 		VALUES
-			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#)
+			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#, #moNum#)
 	</insert>
 	
 	<insert id="insertFile" parameterClass="file">

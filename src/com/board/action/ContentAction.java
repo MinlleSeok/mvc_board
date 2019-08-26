@@ -1,5 +1,7 @@
 package com.board.action;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,11 +17,15 @@ public class ContentAction implements CommandAction {
 		String idx2 = request.getParameter("idx");
 		int idx = Integer.parseInt(idx2);
 		
-		Board article = BoardDAO.getInstance().getArticle(idx);
-	
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("idx", idx);
+		map.put("moNum", moNum);
+		Board article = BoardDAO.getInstance().getArticle(map);
+
 		request.setAttribute("article", article);
 		
-		return "content.jsp";
+		return "content.jsp?moNum="+moNum;
 	}
 
 }

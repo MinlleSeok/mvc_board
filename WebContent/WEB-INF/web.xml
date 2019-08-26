@@ -17,15 +17,8 @@
 <servlet-mapping>
 	<servlet-name>ControllerAction</servlet-name>
 	<url-pattern>*.do</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>ControllerAction2</servlet-name>
-	<servlet-class>com.controller.action.ControllerAction</servlet-class>
-</servlet>
-<servlet-mapping>
-	<servlet-name>ControllerAction2</servlet-name>
 	<url-pattern>*.co</url-pattern>
+	<url-pattern>*.bo</url-pattern>
 </servlet-mapping>
 
 </web-app>

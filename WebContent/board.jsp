@@ -43,7 +43,7 @@
 		<c:forEach items="${array}" var="arr">
 		<tr>
 			<td>${arr.idx}</td>
-			<td><a href='count.do?idx=${arr.idx}'>${arr.title}</a></td>
+			<td><a href='count.do?moNum=${moNum}&idx=${arr.idx}'>${arr.title}</a></td>
 			<td>${arr.writer}</td>
 			<td>${arr.regdate}</td>
 			<td>${arr.count}</td>
@@ -51,7 +51,7 @@
 		</c:forEach>
 	</table>
 	<c:if test="${page > 0}">
-		<a href="list.do?page=${page-10}">이전페이지</a>
+		<a href="list.do?moNum=${moNum}&page=${page-10}">이전페이지</a>
 	</c:if>
 	<c:if test="${page == 0}">
 		첫 페이지
@@ -61,8 +61,10 @@
 		마지막 페이지 <br/>
 	</c:if>
 	<c:if test="${fn:length(array) == 10}">
-		<a href="list.do?page=${page+10}">다음페이지</a> <br/>
+		<a href="list.do?moNum=${moNum}&page=${page+10}">다음페이지</a> <br/>
 	</c:if>
-	<a href="write.jsp">글쓰기</a>
+	<a href="write.jsp?moNum=${moNum}">글쓰기</a>
+	<a href="BoardRequest.jsp">게시판제작</a>
+	<a href="list.bo">게시판목록</a>
 </body>
 </html>

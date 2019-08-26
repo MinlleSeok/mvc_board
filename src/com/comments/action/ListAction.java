@@ -2,6 +2,7 @@ package com.comments.action;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,12 +26,17 @@ public class ListAction implements CommandAction {
 		
 		String boNum2 = request.getParameter("boNum");
 		int boNum = Integer.parseInt(boNum2);
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boNum", boNum);
+		map.put("moNum", moNum);
+		
 		int page = 0;
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
-		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(boNum, page);
+		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(map, page);
 		
 		JSONObject obj = new JSONObject();
 		
@@ -41,6 +47,7 @@ public class ListAction implements CommandAction {
 			JSONObject cObject = new JSONObject();
 			
 			cObject.put("num", commentsList.get(i).getNum());
+			cObject.put("moNum", commentsList.get(i).getMoNum());
 			cObject.put("boNum", commentsList.get(i).getBoNum());
 			cObject.put("userNum", commentsList.get(i).getUserNum());
 			cObject.put("content", commentsList.get(i).getContent());

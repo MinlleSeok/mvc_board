@@ -9,12 +9,13 @@
 </head>
 <body>
 	<form action="insert.do" method="post" enctype="multipart/form-data" onsubmit='return formCheck();'>
+		<input type="hidden" name="moNum" value="${param.moNum}">
 		제목 : <input type="text" name="title" /><br/>
 		작성자 : <input type="text" name="writer" /><br/>
 		파일 : <input type="file" name="filename" multiple accept="image/*" id="fileElem" style="display:none" onchange="handleFiles(this.files)"><br/>
 		<a href="#" id="fileSelect">Select some files</a><br/>
 		<div id="fileList">
-		<p id="nothing">No files selected!</p>
+			<p id="filemsg"></p>
 		</div><br/>
 		내용 : <iframe id="content2" src="about:blank"></iframe><br/>
 		<input type="submit" value="작성" />
@@ -60,7 +61,7 @@
 		  }
 		  e.preventDefault(); // prevent navigation to "#"
 		}, false);
-
+		
 	}
 	
 	
@@ -69,17 +70,12 @@
 		
 	
 	  if (!files.length) {
-	    
-
-	    var html = "No files selected!";
-	    var newElement = document.createElement("p");
-	    newElement.setAttribute('id', 'nothing');
-	    newElement.innerHTML = html;
-	    fileList.appendChild(newElement);
-	    
+	  	
+		document.getElementById("filemsg").innerHTML = "";
+		document.getElementById("filemsg").innerHTML = "사진읍따";
+		  
 	  } else {
-		  var deleteNone = document.getElementById("nothing");
-		  deleteNone.parentNode.removeChild(deleteNone);
+		  document.getElementById("filemsg").innerHTML = "";
 		  const list = document.createElement("ul");
 	    fileList.appendChild(list);
 	    for (let i = 0; i < files.length; i++) {

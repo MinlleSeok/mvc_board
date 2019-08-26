@@ -66,8 +66,8 @@
 		
 		 
 	</table>
-	<a href="delete.do?idx="${article.idx}">게시글삭제</a>
-	<a href="list.do">목록으로</a>
+	<a href="delete.do?idx=${article.idx}">게시글삭제</a>
+	<a href="list.do?moNum=${article.moNum}">목록으로</a>
 	<iframe id="ifrm_filedown" style="position:absolute; z-index:1; visibility: hidden;"></iframe>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
@@ -90,7 +90,8 @@
 				type: "post",
 				datatype : "json",
 				data : {"content":content,
-						"boNum":boNum},
+						"boNum":boNum,
+						"moNum":${article.moNum}},
 				success : function(data) {
 					printComment(boNum);
 				}
@@ -102,7 +103,7 @@
 		
 		function printComment(boNum) {
 			$.ajax({
-				url: "print.co?boNum="+boNum,
+				url: "print.co?boNum="+boNum+"&moNum="+${article.moNum},
 				cache : false,
 				success : function(data) {
 					console.log(data);
@@ -177,7 +178,8 @@
 				datatype : "json",
 				data : {"content":content,
 						"boNum":boNum,
-						"reNum":reNum},
+						"reNum":reNum,
+						"moNum":${article.moNum}},
 				success : function(data) {
 					printComment(boNum);
 					$("#reComment"+reNum).find('td > div').stop().slideUp("slow", function(){
@@ -197,7 +199,8 @@
 				type: "post",
 				datatype : "json",
 				data : {"content":content,
-						"boNum":boNum},
+						"boNum":boNum,
+						"moNum":${article.moNum}},
 				success : function(data) {
 					printComment(boNum);
 				}

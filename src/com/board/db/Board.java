@@ -13,6 +13,7 @@ public class Board {
 	private String regip;
 	private String filename;
 	private String thumbImg;
+	private int moNum;
 	
 	public int getIdx() {
 		return idx;
@@ -67,5 +68,11 @@ public class Board {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public int getMoNum() {
+		return moNum;
+	}
+	public void setMoNum(int moNum) {
+		this.moNum = moNum;
 	}
 }

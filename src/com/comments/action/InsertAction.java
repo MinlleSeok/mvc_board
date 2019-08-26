@@ -23,10 +23,12 @@ public class InsertAction implements CommandAction{
 		String userNum2 = "1";
 		int boNum = Integer.parseInt(boNum2);
 		int userNum = Integer.parseInt(userNum2);
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
 		Comments comments = new Comments();
 		comments.setBoNum(boNum);
 		comments.setContent(content);
 		comments.setUserNum(userNum);
+		comments.setMoNum(moNum);
 		CommentsDAO.getInstance().insertComment(comments);
 		System.out.println(content);
 		

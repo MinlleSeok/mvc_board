@@ -2,6 +2,7 @@ package com.board.db;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.common.db.IbatisDAO;
 
@@ -18,18 +19,18 @@ public class BoardDAO extends IbatisDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<Board> getArticleList(int page) throws SQLException {
+	public ArrayList<Board> getArticleList(int page, int moNum) throws SQLException {
 		
 		ArrayList<Board> articleList = null;
-		articleList = (ArrayList<Board>)GetDB().queryForList("getArticleList", null, page, 10);
+		articleList = (ArrayList<Board>)GetDB().queryForList("getArticleList", moNum, page, 10);
 		
 		return articleList;
 	}
 	
-	public Board getArticle(int idx) throws SQLException {
+	public Board getArticle(HashMap<String, Object> map) throws SQLException {
 		
 		Board article = null;
-		article = (Board)GetDB().queryForObject("getArticle", idx);
+		article = (Board)GetDB().queryForObject("getArticle", map);
 		
 		return article;
 	}

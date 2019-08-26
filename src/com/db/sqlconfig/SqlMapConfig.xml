@@ -33,4 +33,5 @@
 	
 	<sqlMap resource="com/db/sqlmaps/Board.xml"/>
 	<sqlMap resource="com/db/sqlmaps/Comments.xml"/>
+	<sqlMap resource="com/db/sqlmaps/Community.xml"/>
 </sqlMapConfig>

@@ -38,6 +38,7 @@ public class InsertAction implements CommandAction {
 		String writer = "";
 		String content = "";
 		String filename = "";
+		int moNum = 0;
 		String regip = request.getRemoteAddr();
 
 		try {
@@ -46,6 +47,7 @@ public class InsertAction implements CommandAction {
 			writer = multi.getParameter("writer"); // "작성자이름";
 			content = multi.getParameter("content");
 			filename = multi.getFilesystemName("filename");
+			moNum = Integer.parseInt(multi.getParameter("moNum"));
 			if(multi.getParameter("page") != null) {
 				page = Integer.parseInt(multi.getParameter("page"));
 			}
@@ -94,6 +96,7 @@ public class InsertAction implements CommandAction {
 			article.setRegip(regip);
 			article.setTitle(title);
 			article.setWriter(writer);
+			article.setMoNum(moNum);
 			if(filename != null) {
 			article.setFilename(filename);
 			}
@@ -103,7 +106,7 @@ public class InsertAction implements CommandAction {
 		
 		//request.setAttribute("page", page);
 		
-		return "list.do";
+		return "list.do?moNum="+moNum;
 	}
 
 }

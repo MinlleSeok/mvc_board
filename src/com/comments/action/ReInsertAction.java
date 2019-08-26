@@ -25,11 +25,13 @@ public class ReInsertAction implements CommandAction{
 		int boNum = Integer.parseInt(boNum2);
 		int reNum = Integer.parseInt(reNum2);
 		int userNum = Integer.parseInt(userNum2);
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
 		Comments comments = new Comments();
 		comments.setBoNum(boNum);
 		comments.setReNum(reNum);
 		comments.setContent(content);
 		comments.setUserNum(userNum);
+		comments.setMoNum(moNum);
 		CommentsDAO.getInstance().reInsertComment(comments);
 		System.out.println(content);
 		
