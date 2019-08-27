@@ -13,7 +13,7 @@
 <script>
 	function onDownload(idx) {
 		var o = document.getElementById("ifrm_filedown");
-		o.src = "download.do?idx="+idx;
+		o.src = "download.do?moNum=${article.moNum}&idx="+idx;
 	}
 </script>
 <style type="text/css">

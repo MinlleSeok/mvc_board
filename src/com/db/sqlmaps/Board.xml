@@ -25,14 +25,29 @@
 			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#, #moNum#)
 	</insert>
 	
+	<update id="updateFiles">
+		<![CDATA[
+		UPDATE Files
+			SET		boNum = LAST_INSERT_ID()
+
+			WHERE	num = 
+		]]>
+	</update>
+	
 	<insert id="insertFile" parameterClass="file">
 		<![CDATA[
 		INSERT INTO FILES
-			(userNum, filename)
+			(userNum, filename, moNum)
 		VALUES
-			(#userNum#, #filename#)
+			(#userNum#, #filename#, #moNum#)
 		]]>
 	</insert>
+	
+	<select id="getFile" parameterClass="str" resultClass="int">
+		<![CDATA[
+			select num from files where filename = #{filename}
+		]]>
+	</select>
 	
 	<update id="setArticleCount" parameterClass="board">
 		update board set count = #count# where idx = #idx#

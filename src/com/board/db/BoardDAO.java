@@ -53,9 +53,14 @@ public class BoardDAO extends IbatisDAO {
 		
 	}
 
-	public void insertFile(Files file) throws SQLException {
+	public int insertFile(Files file) throws SQLException {
 		GetDB().insert("insertFile", file);
-		
+		int fileNum = (int)GetDB().queryForObject("getFile", file.getFilename());
+		return fileNum;
+	}
+
+	public void getFilesInsert(int moNum) throws SQLException {
+		GetDB().queryForList("getFiles", moNum);
 	}
 	
 	

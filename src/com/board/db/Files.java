@@ -6,6 +6,7 @@ public class Files {
 	private int userNum;
 	private int boNum;
 	private String filename;
+	private int moNum;
 	
 	public int getNum() {
 		return num;
@@ -30,6 +31,12 @@ public class Files {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public int getMoNum() {
+		return moNum;
+	}
+	public void setMoNum(int moNum) {
+		this.moNum = moNum;
 	}
 	
 	

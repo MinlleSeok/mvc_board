@@ -8,10 +8,11 @@
 
 </head>
 <body>
-	<form action="insert.do" method="post" enctype="multipart/form-data" onsubmit='return formCheck();'>
+	<form action="insert.do" method="post" onsubmit='return formCheck();'>
 		<input type="hidden" name="moNum" value="${param.moNum}">
 		제목 : <input type="text" name="title" /><br/>
 		작성자 : <input type="text" name="writer" /><br/>
+		if(관리자면) 공지사항:<input type="checkbox" name="pin"><br/>
 		파일 : <input type="file" name="filename" multiple accept="image/*" id="fileElem" style="display:none" onchange="handleFiles(this.files)"><br/>
 		<a href="#" id="fileSelect">Select some files</a><br/>
 		<div id="fileList">
@@ -95,14 +96,15 @@
 	      
 	      var formData = new FormData(document.forms[0]);
 	      formData.append("fileObj",files[i]);
-	      
+	      formData.append("moNum","${param.moNum}");
 	      
 	      var xhttp = new XMLHttpRequest();
 	      xhttp.onreadystatechange = function() {
 	          if (this.readyState == 4 && this.status == 200) {
 	             // Typical action to be performed when the document is ready:
 	             var output = xE.d.getElementsByTagName("body")[0];
-				      output.innerHTML +=  "<br/><img src='upload/"+xhttp.responseText+"' width='200px' height='auto'><br/>";
+				      output.innerHTML +=  "<br/><img src='upload/"+xhttp.responseText.get("filename")+"' width='200px' height='auto'><br/>";
+	          
 	          }
 	      };
 	      xhttp.open("POST", "file.do", true);

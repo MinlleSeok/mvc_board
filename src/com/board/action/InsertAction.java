@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.board.db.Board;
 import com.board.db.BoardDAO;
 import com.controller.action.CommandAction;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class InsertAction implements CommandAction {
 
@@ -27,8 +25,7 @@ public class InsertAction implements CommandAction {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("contentType=text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		
-		MultipartRequest multi = null;
+
 		
 		int sizeLimit = 10 * 1024 * 1024;
 		int page = 0;
@@ -41,23 +38,16 @@ public class InsertAction implements CommandAction {
 		int moNum = 0;
 		String regip = request.getRemoteAddr();
 
-		try {
-			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
-			title = multi.getParameter("title"); // "제목입니다.";
-			writer = multi.getParameter("writer"); // "작성자이름";
-			content = multi.getParameter("content");
-			filename = multi.getFilesystemName("filename");
-			moNum = Integer.parseInt(multi.getParameter("moNum"));
-			if(multi.getParameter("page") != null) {
-				page = Integer.parseInt(multi.getParameter("page"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			title = request.getParameter("title"); // "제목입니다.";
+			writer = request.getParameter("writer"); // "작성자이름";
+			content = request.getParameter("content");
+			moNum = Integer.parseInt(request.getParameter("moNum"));
 			
-		}
+			if(request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
 
-		System.out.println("asd:"+multi.getParameter("content"));
-		System.out.println(filename);
+
 		PrintWriter out = response.getWriter();
 		
 		///////////////////////////////////////////////////
@@ -101,6 +91,7 @@ public class InsertAction implements CommandAction {
 			article.setFilename(filename);
 			}
 			BoardDAO.getInstance().insertArticle(article);
+
 		}
 		
 		

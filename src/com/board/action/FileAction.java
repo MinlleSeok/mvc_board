@@ -2,7 +2,8 @@ package com.board.action;
 
 
 import java.io.PrintWriter;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ public class FileAction implements CommandAction {
 		String filename = "";
 		
 		int userNum = 1;
-		int boNum = 0;
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
 		String regip = request.getRemoteAddr();
 
 		try {
@@ -55,16 +56,23 @@ public class FileAction implements CommandAction {
 		// 유효성 검사
 		///////////////////////////////////////////////////
 		
-		boolean check = false;
-		String checkMsg = "";
+		// boolean check = false;
+		// String checkMsg = "";
 
 	
 			if(filename != null) {
 			Files file = new Files();
 			file.setFilename(filename);
 			file.setUserNum(userNum);
-			BoardDAO.getInstance().insertFile(file);
-			out.print(filename);
+			file.setMoNum(moNum);
+			
+			int fileNum = BoardDAO.getInstance().insertFile(file);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("filename", filename);
+			map.put("fileNum", fileNum);
+			out.print(map);
+			
 			} else {
 				
 			}
