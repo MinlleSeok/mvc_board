@@ -96,8 +96,9 @@
 	      // var formElement = document.querySelector("form");
 	      // var formData = new FormData(formElement);
 	      var formData = new FormData();
+	      var moNumm = ${param.moNum};
 	      formData.append("fileObj",files[i]);
-	      formData.append("moNum","${param.moNum}");
+	      formData.append("moNum",moNumm);
 	      
 	      var xhttp = new XMLHttpRequest();
 	      xhttp.onreadystatechange = function() {

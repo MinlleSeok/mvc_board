@@ -40,11 +40,6 @@ public class InsertAction implements CommandAction {
 		
 		String[] files2 = request.getParameterValues("files");
 		
-		int[] files = new int[files2.length];
-		for(int i=0; i<files2.length; i++){
-			files[i] = Integer.parseInt(files2[i]);
-			System.out.println("files[i] : "+files[i]);
-		}
 		String regip = request.getRemoteAddr();
 
 			title = request.getParameter("title"); // "제목입니다.";
@@ -116,6 +111,14 @@ public class InsertAction implements CommandAction {
 			//}
 			
 			BoardDAO.getInstance().insertArticle(article);
+			
+			if(request.getParameterValues("files") != null) {
+				int[] files = new int[files2.length];
+				for(int i=0; i<files2.length; i++){
+					files[i] = Integer.parseInt(files2[i]);
+					BoardDAO.getInstance().updateFiles(files[i]);
+				}
+				}
 
 		}
 		

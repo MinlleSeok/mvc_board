@@ -40,9 +40,7 @@ public class FileAction implements CommandAction {
 		
 		int userNum = 1;
 		int moNum = 0;
-		if(request.getParameter("moNum") != null) {
-			moNum = Integer.parseInt(request.getParameter("moNum"));
-		}
+
 		
 		// String regip = request.getRemoteAddr();
 
@@ -50,7 +48,7 @@ public class FileAction implements CommandAction {
 			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
 
 			filename = multi.getFilesystemName("fileObj");
-			
+			moNum = Integer.parseInt(multi.getParameter("moNum"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

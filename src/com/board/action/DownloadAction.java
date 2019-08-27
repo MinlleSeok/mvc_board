@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.board.db.Board;
 import com.board.db.BoardDAO;
+import com.board.db.Files;
 import com.controller.action.CommandAction;
 
 public class DownloadAction implements CommandAction {
@@ -22,13 +23,10 @@ public class DownloadAction implements CommandAction {
 		request.setCharacterEncoding("UTF-8");
 		
 		int idx = Integer.parseInt(request.getParameter("idx"));
-		int moNum = Integer.parseInt(request.getParameter("moNum"));
 
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("idx", idx);
-		map.put("moNum", moNum);
-		Board article = BoardDAO.getInstance().getArticle(map);
-		String filename = article.getFilename();
+		Files myfile = BoardDAO.getInstance().downFile(idx);
+		
+		String filename = myfile.getFilename();
 		
 		String uploadFileName = request.getRealPath("/upload") + "/" + filename;
 		

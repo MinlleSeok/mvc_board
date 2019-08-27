@@ -11,7 +11,7 @@
 	<typeAlias alias="file" type="com.board.db.Files" />
 	
 	
-	<select id="getArticleList" parameterClass="int" resultClass="board">
+	<select id="getArticleList" remapResults="true" resultClass="board">
 		<![CDATA[
 			SELECT * from board WHERE moNum = #moNum# ORDER BY pin DESC, idx DESC
 		]]>
@@ -32,12 +32,11 @@
 			]]>
 	</insert>
 	
-	<update id="updateFiles">
+	<update id="updateFile">
 		<![CDATA[
-		UPDATE Files
+			UPDATE files
 			SET		boNum = LAST_INSERT_ID()
-
-			WHERE	num = 0
+			WHERE	num = #num#
 		]]>
 	</update>
 	
@@ -53,6 +52,18 @@
 	<select id="getFile" parameterClass="str" resultClass="int">
 		<![CDATA[
 			select num from files where filename = #filename#
+		]]>
+	</select>
+	
+	<select id="downFile" parameterClass="int" resultClass="file">
+		<![CDATA[
+			select * from files where num = #num#
+		]]>
+	</select>
+	
+	<select id="getFiles" parameterClass="hmap" resultClass="file">
+		<![CDATA[
+			select * from files where boNum = #idx# and moNum = #moNum#
 		]]>
 	</select>
 	

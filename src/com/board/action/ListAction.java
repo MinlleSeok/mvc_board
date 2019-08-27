@@ -18,7 +18,7 @@ public class ListAction implements CommandAction {
 		
 		
 		String page2 = request.getParameter("page") == null ? "0" : request.getParameter("page");
-		String moNum2 = request.getParameter("moNum") == null ? "0" : request.getParameter("moNum");
+		//String moNum2 = request.getParameter("moNum") == null ? "0" : request.getParameter("moNum");
 		
 		/*
 		if(page2 == null || page2.trim().equals("") || page2.trim().equals("null")) {
@@ -31,8 +31,8 @@ public class ListAction implements CommandAction {
 		*/
 		
 		int page = Integer.parseInt(page2);
-		int moNum = Integer.parseInt(moNum2);
-
+		int moNum = Integer.parseInt(request.getParameter("moNum"));
+		
 		ArrayList<Board> articleList = BoardDAO.getInstance().getArticleList(page,moNum);
 		
 		request.setAttribute("array", articleList);

@@ -1,5 +1,6 @@
 package com.board.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.board.db.Board;
 import com.board.db.BoardDAO;
+import com.board.db.Files;
 import com.controller.action.CommandAction;
 
 public class ContentAction implements CommandAction {
@@ -22,8 +24,9 @@ public class ContentAction implements CommandAction {
 		map.put("idx", idx);
 		map.put("moNum", moNum);
 		Board article = BoardDAO.getInstance().getArticle(map);
-
+		ArrayList<Files> list = BoardDAO.getInstance().getFiles(map);
 		request.setAttribute("article", article);
+		request.setAttribute("filesList", list);
 		
 		return "content.jsp?moNum="+moNum;
 	}

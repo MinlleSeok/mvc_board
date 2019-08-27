@@ -34,7 +34,6 @@
 	<h1>게시글 리스트</h1>
 	<table>
 		<tr>
-			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>날짜</th>
@@ -42,11 +41,18 @@
 		</tr>
 		<c:forEach items="${array}" var="arr">
 		<tr>
-			<td>${arr.idx}</td>
+		<c:if test="${arr.pin > 0}">
+			<td style="background: #00FFFF"><a href='count.do?moNum=${moNum}&idx=${arr.idx}'>${arr.title}</a></td>
+			<td style="background: #FF00FF">${arr.writer}</td>
+			<td style="background: #FFFF00">${arr.regdate}</td>
+			<td style="background: #FF0000">${arr.count}</td>
+		</c:if>
+		<c:if test="${arr.pin == 0}">
 			<td><a href='count.do?moNum=${moNum}&idx=${arr.idx}'>${arr.title}</a></td>
 			<td>${arr.writer}</td>
 			<td>${arr.regdate}</td>
 			<td>${arr.count}</td>
+		</c:if>
 		</tr>
 		</c:forEach>
 	</table>

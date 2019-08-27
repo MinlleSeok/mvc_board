@@ -5,6 +5,7 @@
 <%@page import="java.util.regex.Pattern"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,12 +49,14 @@
 			<th colspan="3">내용</th>
 			<td colspan="7">${article.content}</td>
 		</tr>
+		<c:forEach items="${filesList}" var="fl">
 		<tr>
 			<th colspan="3">첨부파일</th>
 			<td colspan="7">
-				<a href="#" onclick="onDownload('${article.idx}')">${article.filename}</a>
+				<a href="#" onclick="onDownload('${fl.num}')">${fl.filename}</a>
 			</td>
 		</tr>
+		</c:forEach>
 		<tr id="comments">
 			<td colspan="7"><iframe id="comment" src="about:blank"></iframe></td>
 			<td colspan="3"><button onclick="insertComment('${article.idx}');">댓글</button></td>
