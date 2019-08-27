@@ -3,7 +3,9 @@ package com.board.db;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import com.comments.db.Comments;
 import com.common.db.IbatisDAO;
 
 
@@ -58,7 +60,8 @@ public class BoardDAO extends IbatisDAO {
 	public int insertFile(Files myfile) throws SQLException {
 		
 		GetDB().insert("insertFile", myfile);
-		int fileNum = (int)GetDB().queryForObject("getFile", myfile.getFilename());
+		int fileNum = (int)GetDB().queryForObject("sequence", null);
+		
 		return fileNum;
 	}
 
@@ -85,6 +88,9 @@ public class BoardDAO extends IbatisDAO {
 		return myfile;
 		
 	}
+
+	
+	
 	
 	
 	

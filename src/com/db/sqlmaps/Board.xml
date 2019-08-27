@@ -67,6 +67,10 @@
 		]]>
 	</select>
 	
+	<select id="sequence" resultClass="int">
+		select LAST_INSERT_ID() from dual
+	</select>
+	
 	<update id="setArticleCount" parameterClass="board">
 		update board set count = #count# where idx = #idx#
 	</update>

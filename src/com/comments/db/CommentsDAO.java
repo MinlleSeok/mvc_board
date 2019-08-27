@@ -3,6 +3,7 @@ package com.comments.db;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.common.db.IbatisDAO;
 
@@ -46,6 +47,22 @@ public class CommentsDAO extends IbatisDAO {
 		map.put("sum", sum);
 		GetDB().update("updateReComment", map);
 		
+	}
+
+	public void modifyComment(Comments comments) throws SQLException {
+		GetDB().update("modifyComment", comments);
+	}
+	
+	public Comments bringComment(Map<String, Integer> map) throws SQLException {
+
+		Comments comments = null;
+		comments = (Comments) GetDB().queryForObject("bringComment", map);
+		return comments;
+	}
+
+
+	public void deleteComment(Map<String, Integer> map) throws SQLException {
+		GetDB().delete("deleteComment", map);
 	}
 
 }

@@ -69,7 +69,8 @@
 		
 		 
 	</table>
-	<a href="delete.do?idx=${article.idx}">게시글삭제</a>
+	<a href="delete.do?moNum=${article.moNum}&idx=${article.idx}">게시글삭제</a>
+	<a href="modify.do?moNum=${article.moNum}&idx=${article.idx}">게시글수정</a>
 	<a href="list.do?moNum=${article.moNum}">목록으로</a>
 	<iframe id="ifrm_filedown" style="position:absolute; z-index:1; visibility: hidden;"></iframe>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -94,7 +95,7 @@
 				datatype : "json",
 				data : {"content":content,
 						"boNum":boNum,
-						"moNum":${article.moNum}},
+						"moNum":"${article.moNum}"},
 				success : function(data) {
 					printComment(boNum);
 				}
@@ -106,7 +107,7 @@
 		
 		function printComment(boNum) {
 			$.ajax({
-				url: "print.co?boNum="+boNum+"&moNum="+${article.moNum},
+				url: "print.co?boNum="+boNum+"&moNum=${article.moNum}",
 				cache : false,
 				success : function(data) {
 					console.log(data);
@@ -120,8 +121,8 @@
 									  +	"<td colspan='2'>"+obj.comments[i].userNum+"</td>"
 									  + "<td colspan='6' style='padding-left: "+(obj.comments[i].reDep)*10+"px;'>"+obj.comments[i].content+"</td>"
 									  + "<td colspan='2' id='"+obj.comments[i].num+"'></td></tr>");
-									  if (obj.comments[i].reDep == 0) {	$("#"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+")'>답글</a><a href='#'>수정</a> <a href='#'>삭제</a>");}
-									  else {$("#"+obj.comments[i].num).html("<a href='#'>수정</a> <a href='#'>삭제</a>");}
+									  if (obj.comments[i].reDep == 0) {	$("#"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+")'>답글</a> <a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
+									  else {$("#"+obj.comments[i].num).html("<a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
 						console.log(obj.comments[i].content);
 					}
 				}
@@ -130,7 +131,14 @@
 		}
 		
 		function reComment(meee,boNum,reNum) {
-			var comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reCommentInsert("+boNum+","+reNum+");'>댓글</button></td></tr>";
+			var comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reCommentInsert("+boNum+","+reNum+",${article.moNum});'>댓글</button></td></tr>";
+			
+			if($("#modifyComment"+reNum).length > 0){	
+				$("#modifyComment"+reNum).find('td > div').stop().slideUp("slow", function(){
+	        		$("#modifyComment"+reNum).remove();
+	        	});
+			}
+			
 			if($("#reComment"+reNum).length > 0){
 				
 				var offset = $(meee).offset();
@@ -173,7 +181,62 @@
 			});*/
 		}
 		
-		function reCommentInsert(boNum,reNum) {
+		function modifyComment(meee,moNum,boNum,num) {
+			
+			var comhtml = "<tr id='modifyComment"+num+"'><td colspan='7'><iframe id='modifyComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='commentModify("+moNum+","+boNum+","+num+");'>댓글</button></td></tr>";
+			
+			if($("#reComment"+num).length > 0){	
+				$("#reComment"+num).find('td > div').stop().slideUp("slow", function(){
+	        		$("#reComment"+num).remove();
+	        	});
+			}
+			
+			if($("#modifyComment"+num).length > 0){
+				
+				var offset = $(meee).offset();
+		        $("html").animate({scrollTop : offset.top}, 200);
+
+		        $("#reComment"+num).find('td > div').stop().slideUp("slow", function(){
+
+		        	$("#reComment"+num).remove();
+
+		        	 });
+		        
+			} else {
+				
+				var offset = $(meee).offset();
+		        $("html").animate({scrollTop : offset.top}, 200);
+		        
+		        $(meee).parent().parent().after(comhtml);
+		        $("#modifyComment"+num).children('td').wrapInner('<div style="display: none;" />');
+		        $("#modifyComment"+num).show().find('td > div').stop().slideDown("slow");
+		        
+		        var dd = {};
+
+					dd.w = document.getElementById("modifyComment"+num).getElementsByTagName("iframe")[0].contentWindow;
+					dd.d = dd.w.document;
+					dd.d.write("<!DOCTYPE html><html><head></head><body></body></html>");
+					dd.d.designMode = "on";
+					dd.w.focus();
+					$.ajax({
+						url: "bring.co",
+						type: "post",
+						datatype : "json",
+						data : {"moNum":moNum,
+								"boNum":boNum,
+								"num":num},
+						success : function(data) {
+							dd.d.getElementsByTagName("BODY")[0].innerHTML = data;
+						}
+						
+					});
+					
+			}
+			/*
+			*/
+		}
+		
+		function reCommentInsert(boNum,reNum,moNum) {
 			var content = document.getElementById("reComment"+reNum).getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("BODY")[0].innerHTML;
 			$.ajax({
 				url: "reInsert.co",
@@ -182,7 +245,7 @@
 				data : {"content":content,
 						"boNum":boNum,
 						"reNum":reNum,
-						"moNum":${article.moNum}},
+						"moNum":moNum},
 				success : function(data) {
 					printComment(boNum);
 					$("#reComment"+reNum).find('td > div').stop().slideUp("slow", function(){
@@ -194,33 +257,50 @@
 				
 			});
 		}
-		
-		function modifyComment(boNum) {
-			var content = xE.d.getElementsByTagName("BODY")[0].innerHTML;
+
+		function commentModify(moNum,boNum,num) {
+			var content = document.getElementById("modifyComment"+num).getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("BODY")[0].innerHTML;
 			$.ajax({
-				url: "insert.co",
+				url: "modify.co",
 				type: "post",
 				datatype : "json",
 				data : {"content":content,
 						"boNum":boNum,
-						"moNum":${article.moNum}},
+						"num":num,
+						"moNum":moNum},
 				success : function(data) {
 					printComment(boNum);
+					$("#modifyComment"+num).find('td > div').stop().slideUp("slow", function(){
+
+			        	$("#modifyComment"+num).remove();
+
+			        	 });
 				}
 				
 			});
 		}
 		
-		function deleteComment(boNum) {
-			var content = xE.d.getElementsByTagName("BODY")[0].innerHTML;
+		
+		function deleteComment(moNum,boNum,num) {
 			$.ajax({
-				url: "insert.co",
+				url: "delete.co",
 				type: "post",
 				datatype : "json",
-				data : {"content":content,
-						"boNum":boNum},
+				data : {"moNum":moNum,
+						"boNum":boNum,
+						"num":num},
 				success : function(data) {
 					printComment(boNum);
+					if($("#reComment"+num).length > 0){	
+						$("#reComment"+num).find('td > div').stop().slideUp("slow", function(){
+			        		$("#reComment"+num).remove();
+			        	});
+					}
+					if($("#modifyComment"+num).length > 0){	
+						$("#modifyComment"+num).find('td > div').stop().slideUp("slow", function(){
+			        		$("#modifyComment"+num).remove();
+			        	});
+					}
 				}
 				
 			});

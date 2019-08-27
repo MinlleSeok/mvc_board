@@ -15,6 +15,12 @@
 		]]>
 	</select>
 	
+	<select id="bringComment" parameterClass="hmap" resultClass="comment">
+		<![CDATA[
+		SELECT * FROM comments where boNum = #boNum# and num = #num# and moNum = #moNum#
+		]]>
+	</select>
+	
 	<insert id="insertComment" parameterClass="comment">
 		<![CDATA[
 		INSERT INTO COMMENTS
@@ -31,6 +37,16 @@
 			        ,reDep = 0
 			        ,reOdr = 0
 			WHERE	num = LAST_INSERT_ID()
+		]]>
+	</update>
+	
+	<update id="modifyComment" parameterClass="comment">
+		<![CDATA[
+			UPDATE COMMENTS
+			SET content = #content#
+			WHERE num = #num#
+			AND moNum = #moNum#
+			AND boNum = #boNum#
 		]]>
 	</update>
 
@@ -59,4 +75,9 @@
 			]]>
 	</update>
 	
+	<delete id="deleteComment" parameterClass="hmap">
+		<![CDATA[
+		DELETE FROM comments WHERE num = #num# AND boNum = #boNum# AND moNum = #moNum#
+		]]>
+	</delete>
 </sqlMap>
