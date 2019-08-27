@@ -16,18 +16,29 @@ public class ListAction implements CommandAction {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int page = 0;
-		if(request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-		}
-		String moNum2 = request.getParameter("moNum");
-		int moNum = Integer.parseInt(moNum2);
 		
+		String page2 = request.getParameter("page") == null ? "0" : request.getParameter("page");
+		String moNum2 = request.getParameter("moNum") == null ? "0" : request.getParameter("moNum");
+		
+		/*
+		if(page2 == null || page2.trim().equals("") || page2.trim().equals("null")) {
+			page2 = "0";
+		}
+		
+		if(moNum2 == null || moNum2.trim().equals("") || moNum2.trim().equals("null")) {
+			moNum2 = "0";
+		}
+		*/
+		
+		int page = Integer.parseInt(page2);
+		int moNum = Integer.parseInt(moNum2);
+
 		ArrayList<Board> articleList = BoardDAO.getInstance().getArticleList(page,moNum);
 		
 		request.setAttribute("array", articleList);
 		request.setAttribute("page", page);
 		request.setAttribute("moNum", moNum);
+		
 		return "board.jsp?moNum="+moNum;
 	}
 

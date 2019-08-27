@@ -23,6 +23,7 @@ public class CommunityDAO extends IbatisDAO {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Community> getBoards() throws SQLException {
 		ArrayList<Community> list = null;
 		list = (ArrayList<Community>) GetDB().queryForList("getCommunity", null);

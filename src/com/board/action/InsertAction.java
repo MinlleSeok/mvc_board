@@ -36,18 +36,40 @@ public class InsertAction implements CommandAction {
 		String content = "";
 		String filename = "";
 		int moNum = 0;
+		int pin = 0;
+		
+		String[] files2 = request.getParameterValues("files");
+		
+		int[] files = new int[files2.length];
+		for(int i=0; i<files2.length; i++){
+			files[i] = Integer.parseInt(files2[i]);
+			System.out.println("files[i] : "+files[i]);
+		}
 		String regip = request.getRemoteAddr();
 
 			title = request.getParameter("title"); // "제목입니다.";
 			writer = request.getParameter("writer"); // "작성자이름";
 			content = request.getParameter("content");
-			moNum = Integer.parseInt(request.getParameter("moNum"));
 			
-			if(request.getParameter("page") != null) {
+			if(request.getParameter("moNum") != null && !(request.getParameter("moNum").trim().equals("")) && !(request.getParameter("moNum").trim().equals("null"))) {
+				moNum = Integer.parseInt(request.getParameter("moNum"));
+			}
+			
+			if(request.getParameter("pin") != null && !(request.getParameter("pin").trim().equals("")) && !(request.getParameter("pin").trim().equals("null"))){
+				if(request.getParameter("pin").equals("on")){
+				pin = 1;
+				}
+			}
+			if(request.getParameter("page") != null && !(request.getParameter("page").trim().equals("")) && !(request.getParameter("page").trim().equals("null"))) {
 				page = Integer.parseInt(request.getParameter("page"));
 			}
-
-
+			
+			
+			/*
+			for(int i = 0; i < request.getParameter("files").length(); i++){
+				
+			}
+*/
 		PrintWriter out = response.getWriter();
 		
 		///////////////////////////////////////////////////
@@ -81,15 +103,18 @@ public class InsertAction implements CommandAction {
 	
 			Board article = new Board();
 			article.setContent(content);
-			System.out.println(content);
+			// System.out.println(content);
 			article.setCount(count);
 			article.setRegip(regip);
 			article.setTitle(title);
 			article.setWriter(writer);
 			article.setMoNum(moNum);
-			if(filename != null) {
-			article.setFilename(filename);
-			}
+			article.setPin(pin);
+			
+			//if(filename != null) {
+			// article.setFilename(filename);
+			//}
+			
 			BoardDAO.getInstance().insertArticle(article);
 
 		}

@@ -21,7 +21,6 @@
 		내용 : <iframe id="content2" src="about:blank"></iframe><br/>
 		<input type="submit" value="작성" />
 		<textarea rows="5" cols="20" name="content" style="display:none;"></textarea>
-
 	</form>
 	<script>
 	/*
@@ -94,20 +93,34 @@
 	      info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
 	      li.appendChild(info);
 	      
-	      var formData = new FormData(document.forms[0]);
+	      // var formElement = document.querySelector("form");
+	      // var formData = new FormData(formElement);
+	      var formData = new FormData();
 	      formData.append("fileObj",files[i]);
 	      formData.append("moNum","${param.moNum}");
 	      
 	      var xhttp = new XMLHttpRequest();
 	      xhttp.onreadystatechange = function() {
 	          if (this.readyState == 4 && this.status == 200) {
+	        	var jobj = JSON.parse(xhttp.responseText);
 	             // Typical action to be performed when the document is ready:
-	             var output = xE.d.getElementsByTagName("body")[0];
-				      output.innerHTML +=  "<br/><img src='upload/"+xhttp.responseText.get("filename")+"' width='200px' height='auto'><br/>";
-	          
+	            var output = xE.d.getElementsByTagName("body")[0];
+	            var img2 = document.createElement("img");
+         		img2.src = "upload/"+jobj.filename;
+    			img2.height = 100;
+   	      		img2.onload = function() {
+   	       			window.URL.revokeObjectURL(this.src);
+   	      		}
+        	 	output.appendChild(img2);
+			      // output.innerHTML +=  "<br/><img src='upload/"+jobj.filename+"' width='200px' height='auto'><br/>";
+			      var input = document.createElement("input");
+			      input.type = "hidden";
+			      input.name = "files";
+			      input.value= jobj.fileNum;
+			      fileList.appendChild(input);
 	          }
 	      };
-	      xhttp.open("POST", "file.do", true);
+	      xhttp.open("POST", "file.do", false);
 	      xhttp.send(formData);
 	      
 	    }

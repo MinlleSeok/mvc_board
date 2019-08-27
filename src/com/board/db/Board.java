@@ -14,6 +14,7 @@ public class Board {
 	private String filename;
 	private String thumbImg;
 	private int moNum;
+	private int pin;
 	
 	public int getIdx() {
 		return idx;
@@ -74,5 +75,11 @@ public class Board {
 	}
 	public void setMoNum(int moNum) {
 		this.moNum = moNum;
+	}
+	public int getPin() {
+		return pin;
+	}
+	public void setPin(int pin) {
+		this.pin = pin;
 	}
 }

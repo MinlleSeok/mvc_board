@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.board.db.BoardDAO;
 import com.board.db.Files;
 import com.controller.action.CommandAction;
@@ -16,6 +19,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class FileAction implements CommandAction {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
@@ -35,8 +39,12 @@ public class FileAction implements CommandAction {
 		String filename = "";
 		
 		int userNum = 1;
-		int moNum = Integer.parseInt(request.getParameter("moNum"));
-		String regip = request.getRemoteAddr();
+		int moNum = 0;
+		if(request.getParameter("moNum") != null) {
+			moNum = Integer.parseInt(request.getParameter("moNum"));
+		}
+		
+		// String regip = request.getRemoteAddr();
 
 		try {
 			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
@@ -49,7 +57,7 @@ public class FileAction implements CommandAction {
 			
 		}
 
-		System.out.println(filename);
+		// System.out.println(filename);
 		PrintWriter out = response.getWriter();
 		
 		///////////////////////////////////////////////////
@@ -61,6 +69,7 @@ public class FileAction implements CommandAction {
 
 	
 			if(filename != null) {
+				
 			Files file = new Files();
 			file.setFilename(filename);
 			file.setUserNum(userNum);
@@ -68,18 +77,14 @@ public class FileAction implements CommandAction {
 			
 			int fileNum = BoardDAO.getInstance().insertFile(file);
 			
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("filename", filename);
-			map.put("fileNum", fileNum);
-			out.print(map);
+			JSONObject jobj = new JSONObject();
+			jobj.put("filename", filename);
+			jobj.put("fileNum",fileNum);
 			
-			} else {
-				
+			out.print(jobj.toString());
+			
 			}
-			
 
-		
-		
 		//request.setAttribute("page", page);
 		
 		return null;

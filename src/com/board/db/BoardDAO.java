@@ -22,7 +22,7 @@ public class BoardDAO extends IbatisDAO {
 	public ArrayList<Board> getArticleList(int page, int moNum) throws SQLException {
 		
 		ArrayList<Board> articleList = null;
-		articleList = (ArrayList<Board>)GetDB().queryForList("getArticleList", moNum, page, 10);
+		articleList = (ArrayList<Board>)GetDB().queryForList("getArticleList", (Integer)moNum, page, 10);
 		
 		return articleList;
 	}
@@ -54,6 +54,7 @@ public class BoardDAO extends IbatisDAO {
 	}
 
 	public int insertFile(Files file) throws SQLException {
+		
 		GetDB().insert("insertFile", file);
 		int fileNum = (int)GetDB().queryForObject("getFile", file.getFilename());
 		return fileNum;

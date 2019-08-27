@@ -10,19 +10,26 @@
 	<typeAlias alias="board" type="com.board.db.Board" />
 	<typeAlias alias="file" type="com.board.db.Files" />
 	
+	
 	<select id="getArticleList" parameterClass="int" resultClass="board">
-		select * from board where moNum = #moNum# order by idx desc
+		<![CDATA[
+			SELECT * from board WHERE moNum = #moNum# ORDER BY pin DESC, idx DESC
+		]]>
 	</select>
 	
 	<select id="getArticle" parameterClass="hmap" resultClass="board">
-		select * from board where idx = #idx# and moNum = #moNum#
+		<![CDATA[
+			select * from board where idx = #idx# and moNum = #moNum#
+		]]>
 	</select>
 	
 	<insert id="insertArticle" parameterClass="board">
+		<![CDATA[
 		INSERT INTO BOARD
-			(TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP, FILENAME, moNum)
+			(title, writer, regdate, count, content, regip, filename, moNum, pin)
 		VALUES
-			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#, #moNum#)
+			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#, #moNum#, #pin#)
+			]]>
 	</insert>
 	
 	<update id="updateFiles">
@@ -30,7 +37,7 @@
 		UPDATE Files
 			SET		boNum = LAST_INSERT_ID()
 
-			WHERE	num = 
+			WHERE	num = 0
 		]]>
 	</update>
 	
@@ -45,7 +52,7 @@
 	
 	<select id="getFile" parameterClass="str" resultClass="int">
 		<![CDATA[
-			select num from files where filename = #{filename}
+			select num from files where filename = #filename#
 		]]>
 	</select>
 	

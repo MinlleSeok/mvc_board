@@ -18,9 +18,7 @@
 	</insert>
 	
 	<select id="getCommunity" resultClass="com">
-		<![CDATA[
 		SELECT * FROM COMMUNITY
-		]]>
 	</select>
 	
 </sqlMap>
