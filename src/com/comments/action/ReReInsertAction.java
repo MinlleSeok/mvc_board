@@ -11,7 +11,7 @@ import com.comments.db.CommentsDAO;
 import com.controller.action.CommandAction;
 
 
-public class ReInsertAction implements CommandAction{
+public class ReReInsertAction implements CommandAction{
 
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
@@ -32,7 +32,7 @@ public class ReInsertAction implements CommandAction{
 		comments.setContent(content);
 		comments.setUserNum(userNum);
 		comments.setMoNum(moNum);
-		CommentsDAO.getInstance().reInsertComment(comments);
+		CommentsDAO.getInstance().reReInsertComment(comments);
 		System.out.println(content);
 		
 		

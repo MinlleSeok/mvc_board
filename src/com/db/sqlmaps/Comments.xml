@@ -11,11 +11,17 @@
 	
 	<select id="getCommentsList" parameterClass="hmap" resultClass="comment" remapResults="true">
 		<![CDATA[
-		SELECT * FROM comments WHERE boNum = #boNum# and moNum = #moNum# ORDER BY reNum DESC, reOdr ASC, regdate DESC
+		SELECT * FROM comments WHERE boNum = #boNum# and moNum = #moNum# ORDER BY reNum ASC, regdate ASC, reOdr ASC
 		]]>
 	</select>
 	
-	<select id="bringComment" parameterClass="hmap" resultClass="comment">
+	<select id="getCommentsCount" parameterClass="hmap" resultClass="int" remapResults="true">
+		<![CDATA[
+			SELECT count(1) FROM comments WHERE boNum = #boNum# and moNum = #moNum#
+		]]>
+	</select>
+	
+	<select id="bringComment" parameterClass="hmap" resultClass="comment" remapResults="true">
 		<![CDATA[
 		SELECT * FROM comments where boNum = #boNum# and num = #num# and moNum = #moNum#
 		]]>
@@ -59,17 +65,17 @@
 			]]>
 	</insert>
 	
-	<select id="selectReDepOdr" parameterClass="hmap" resultClass="int">
+	<select id="selectReDepOdr" parameterClass="hmap" resultClass="int" remapResults="true">
 		<![CDATA[
-		select sum(1) from comments where reNum = #reNum# and moNum = #moNum# and boNum = #boNum#
+		select reDep from comments where num = #reNum# and moNum = #moNum# and boNum = #boNum#
 		]]>
 	</select>
 	
 	<update id="updateReComment" parameterClass="hmap">
 		<![CDATA[
 		UPDATE	COMMENTS
-			SET		reDep = #sum#-1
-					, reOdr = #sum#-1
+			SET		reDep = #sum#+1
+					, reOdr = #reNum#
 			WHERE	num = LAST_INSERT_ID()
 			and moNum = #moNum# and boNum = #boNum#
 			]]>
@@ -80,4 +86,16 @@
 		DELETE FROM comments WHERE num = #num# AND boNum = #boNum# AND moNum = #moNum#
 		]]>
 	</delete>
+	
+	<select id="getCommentUser" parameterClass="int" resultClass="int" remapResults="true">
+		<![CDATA[
+			SELECT userNum FROM comments WHERE num = #reNum#
+		]]>
+	</select>
+	
+	<select id="reReGetReNum" parameterClass="int" resultClass="int" remapResults="true">
+		<![CDATA[
+			SELECT reNum FROM comments WHERE num = #reNum#
+		]]>
+	</select>
 </sqlMap>

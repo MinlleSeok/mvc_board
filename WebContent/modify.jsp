@@ -13,7 +13,7 @@
 <title>본격 게시판 - 게시글 리스트</title>
 
 <style type="text/css">
-#comment {
+#content2 {
 	box-sizing: border-box;
 	border: 1px solid #999;
 	padding: 2px;
@@ -44,8 +44,14 @@
 			</tr>
 			<tr>
 				<th colspan="3">if(관리자면) 공지사항</th>
+				<c:if test="${article.pin > 0}">
+				<td colspan="7"><input type="checkbox" name="pin" checked></td>
+				</c:if>
+				<c:if test="${article.pin == 0}">
 				<td colspan="7"><input type="checkbox" name="pin"></td>
+				</c:if>
 			</tr>
+			
 			<tr>
 				<th colspan="3">파일</th>
 				<td colspan="7"><input type="file" name="filename" multiple

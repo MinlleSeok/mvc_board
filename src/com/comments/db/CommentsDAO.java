@@ -65,4 +65,32 @@ public class CommentsDAO extends IbatisDAO {
 		GetDB().delete("deleteComment", map);
 	}
 
+	public int getCommentUser(int reNum) throws SQLException {
+		int userNum = 0;
+		userNum = (Integer) GetDB().queryForObject("getCommentUser", reNum);
+		return userNum;
+	}
+
+	public int getCommentsCount(HashMap<String, Object> map) throws SQLException {
+		int count = 0;
+		count = (Integer) GetDB().queryForObject("getCommentsCount", map);
+		return count;
+	}
+
+	public void reReInsertComment(Comments comments) throws SQLException {
+		int reReNum = (Integer) GetDB().queryForObject("reReGetReNum", comments.getReNum());
+		comments.setReNum(reReNum);
+		GetDB().insert("insertReComment", comments);
+		int reNum = comments.getReNum();
+		int moNum = comments.getMoNum();
+		int boNum = comments.getBoNum();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("boNum", boNum);
+		map.put("moNum", moNum);
+		map.put("reNum", reNum);
+		int sum = (int) GetDB().queryForObject("selectReDepOdr",map);
+		map.put("sum", sum);
+		GetDB().update("updateReComment", map);
+	}
+
 }

@@ -35,8 +35,8 @@ public class ListAction implements CommandAction {
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
-		
-		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(map, page);
+		int count = CommentsDAO.getInstance().getCommentsCount(map);
+		ArrayList<Comments> commentsList = CommentsDAO.getInstance().getCommentsList(map, count-10);
 		
 		JSONObject obj = new JSONObject();
 		
@@ -53,7 +53,8 @@ public class ListAction implements CommandAction {
 			cObject.put("content", commentsList.get(i).getContent());
 			cObject.put("regdate", commentsList.get(i).getRegdate().toString());
 			cObject.put("reDep", commentsList.get(i).getReDep());
-			
+			int reUserNum = CommentsDAO.getInstance().getCommentUser(commentsList.get(i).getReNum());
+			cObject.put("reUserNum", reUserNum);
 			cArray.add(cObject);
 		}
 		obj.put("comments", cArray);

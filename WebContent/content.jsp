@@ -119,10 +119,13 @@
 					for(i in obj.comments) {
 						comList.append("<tr class='comment'>"
 									  +	"<td colspan='2'>"+obj.comments[i].userNum+"</td>"
-									  + "<td colspan='6' style='padding-left: "+(obj.comments[i].reDep)*10+"px;'>"+obj.comments[i].content+"</td>"
-									  + "<td colspan='2' id='"+obj.comments[i].num+"'></td></tr>");
-									  if (obj.comments[i].reDep == 0) {	$("#"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+")'>답글</a> <a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
-									  else {$("#"+obj.comments[i].num).html("<a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
+									  + "<td colspan='6' style='padding-left: "+(obj.comments[i].reDep)*10+"px;' id='comContent"+obj.comments[i].num+"'></td>"
+									  + "<td colspan='2' id='comDetail"+obj.comments[i].num+"'></td></tr>");
+									  if(obj.comments[i].userNum == obj.comments[i].reUserNum) {$("#comContent"+obj.comments[i].num).html(obj.comments[i].content);}
+									  else {$("#comContent"+obj.comments[i].num).html("@"+obj.comments[i].reUserNum+" "+obj.comments[i].content);}
+									  if (obj.comments[i].reDep == 0) {
+									  $("#comDetail"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+", "+obj.comments[i].reDep+")'>답글</a> <a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
+									  else {$("#comDetail"+obj.comments[i].num).html("<a href='#' onclick='reComment(this, ${article.idx}, "+obj.comments[i].num+", "+obj.comments[i].reDep+")'>답글</a> <a href='#' onclick='modifyComment(this, ${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>수정</a> <a href='#' onclick='deleteComment(${article.moNum}, ${article.idx}, "+obj.comments[i].num+")'>삭제</a>");}
 						console.log(obj.comments[i].content);
 					}
 				}
@@ -130,14 +133,31 @@
 			});
 		}
 		
-		function reComment(meee,boNum,reNum) {
-			var comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reCommentInsert("+boNum+","+reNum+",${article.moNum});'>댓글</button></td></tr>";
+		function reComment(meee,boNum,reNum,reDep) {
+			if ($("tr[id^='reComment']").length > 0) {
+				$("tr[id^='reComment']").find('td > div').stop().slideUp("slow", function(){
+
+		         	$("tr[id^='reComment']").remove();
+
+		        	 });
+			
+			}
+			var comhtml = "";
+			if(reDep > 0){
+				comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reReCommentInsert("+boNum+","+reNum+",${article.moNum});'>댓글</button></td></tr>";
+			} else {
+				comhtml = "<tr id='reComment"+reNum+"'><td colspan='7'><iframe id='reComment' src='about:blank'></iframe></td><td colspan='3'><button onclick='reCommentInsert("+boNum+","+reNum+",${article.moNum});'>댓글</button></td></tr>";
+			}
+			
+			
 			
 			if($("#modifyComment"+reNum).length > 0){	
 				$("#modifyComment"+reNum).find('td > div').stop().slideUp("slow", function(){
 	        		$("#modifyComment"+reNum).remove();
 	        	});
 			}
+			
+			
 			
 			if($("#reComment"+reNum).length > 0){
 				
@@ -240,6 +260,28 @@
 			var content = document.getElementById("reComment"+reNum).getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("BODY")[0].innerHTML;
 			$.ajax({
 				url: "reInsert.co",
+				type: "post",
+				datatype : "json",
+				data : {"content":content,
+						"boNum":boNum,
+						"reNum":reNum,
+						"moNum":moNum},
+				success : function(data) {
+					printComment(boNum);
+					$("#reComment"+reNum).find('td > div').stop().slideUp("slow", function(){
+
+			        	$("#reComment"+reNum).remove();
+
+			        	 });
+				}
+				
+			});
+		}
+		
+		function reReCommentInsert(boNum,reNum,moNum) {
+			var content = document.getElementById("reComment"+reNum).getElementsByTagName("iframe")[0].contentWindow.document.getElementsByTagName("BODY")[0].innerHTML;
+			$.ajax({
+				url: "reReInsert.co",
 				type: "post",
 				datatype : "json",
 				data : {"content":content,
