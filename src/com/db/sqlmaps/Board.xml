@@ -78,5 +78,9 @@
 	<delete id="deleteArticle" parameterClass="int">
 		delete from board where idx = #idx#
 	</delete>
+	
+	<delete id="deleteFile" parameterClass="int">
+		delete from files where num = #num#
+	</delete>
 
 </sqlMap>

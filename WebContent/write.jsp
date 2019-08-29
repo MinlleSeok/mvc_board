@@ -32,6 +32,9 @@
 	*/
 
 	var xE = {};
+	var sel_files = [];
+	var index = 0;
+	var filesArr;
 	
 	window.onload = function() {
 		/*document.forms[0].innerHTML = "제목 : <input type='text' name='title' /><br/>"
@@ -62,10 +65,43 @@
 		  e.preventDefault(); // prevent navigation to "#"
 		}, false);
 		
+		xE.d.addEventListener("keyup", function (event) {
+			  if (event.which === 8 || event.which === 46) {
+			    var result = -1;
+			    var check = false;
+				  for(var z=0; z<index; z++) {
+					  if(xE.d.getElementById("upImg"+z) == null){
+						  result = z;
+						  check = true;
+					  }
+			    }
+			    	if(check) {
+			    		sel_files.splice(result,1);
+			    		document.getElementById("liImg"+result).remove();
+			    		check = false;
+			    		result = -1;
+			    	}
+			    	
+			    
+			  }
+			  // do something
+			});
 	}
 	
 	
-
+	
+	
+	window.beforeunload = function() {
+  	  filesArr.forEach(function(f) {
+      window.URL.revokeObjectURL(f);
+  	  });
+    }
+	
+	function deleteFile(imgNum) {
+		alert(imgNum);
+	}
+	
+	
 	function handleFiles(files) {
 		
 	
@@ -77,25 +113,40 @@
 	  } else {
 		  document.getElementById("filemsg").innerHTML = "";
 		  const list = document.createElement("ul");
+		  
+		  filesArr = Array.prototype.slice.call(files);
+		  
 	    fileList.appendChild(list);
-	    for (let i = 0; i < files.length; i++) {
+	    
+	    
+	    // for (let i = 0; i < files.length; i++) {
+	    filesArr.forEach(function(f) {
+	    	
+	    
 	      const li = document.createElement("li");
+	      li.id = "liImg"+index;
+	      li.className = "liImg";
 	      list.appendChild(li);
 	      
+	      
 	      const img = document.createElement("img");
-	      img.src = window.URL.createObjectURL(files[i]);
+	      img.src = window.URL.createObjectURL(f);
+	      img.id = "upImg"+index;
+	      img.alt = f.name;
 	      img.height = 60;
-	      img.onload = function() {
-	        window.URL.revokeObjectURL(this.src);
-	      }
+	      
+	      
 	      li.appendChild(img);
+	      insertImageAction(index);
 	      const info = document.createElement("span");
-	      info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
+	      info.innerHTML = f.name + ": " + f.size + " bytes <a href=\"javascript:void(0);\" onclick=\"insertImageAction("+index+")\">삽입</a> <a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\">삭제</a>";
 	      li.appendChild(info);
 	      
+	   	  sel_files.push(f);
+	   	  index++;
 	      // var formElement = document.querySelector("form");
 	      // var formData = new FormData(formElement);
-	      
+	      /*
 	      var formData = new FormData();
 	      var moNumm = ${param.moNum};
 	      
@@ -110,6 +161,8 @@
 	            var output = xE.d.getElementsByTagName("body")[0];
 	            var img2 = document.createElement("img");
          		img2.src = "upload/"+jobj.filename;
+         		img2.id = "upImg"+jobj.fileNum;
+         		img2.className = "upImg";
     			img2.height = 100;
    	      		img2.onload = function() {
    	       			window.URL.revokeObjectURL(this.src);
@@ -125,9 +178,30 @@
 	      };
 	      xhttp.open("POST", "file.do", false);
 	      xhttp.send(formData);
+	      */
 	      
-	    }
+	    // }
+	    });	
 	  }
+	}
+	
+	function deleteImageAction(index) {
+		sel_files.splice(index,1);
+		var img_id = document.getElementById("liImg"+index);
+		xE.d.getElementById("upImg"+index).remove();
+		img_id.remove();
+		alert(sel_files);
+	}
+	
+	function insertImageAction(index) {
+		var output = xE.d.getElementsByTagName("body")[0];
+		var img_id = document.getElementById("upImg"+index);
+		var cln = img_id.cloneNode(true);
+		const div = document.createElement("div");
+	      div.className = "divImg";
+	    
+		div.appendChild(cln);
+		output.appendChild(div);
 	}
 	
 		function insertContent() {
@@ -150,9 +224,64 @@
 				    };
 				    reader.readAsDataURL(input.files[0]);
 		}	
-	
+		
+		function filesListing() {
+
+			var formData = new FormData();
+		    var moNumm = ${param.moNum};
+		      
+		    for(var i=0; i < sel_files.length; i++) {
+		    	var name = "image_"+i;
+		    	formData.append(name,sel_files[i]);
+		    }
+		    // formData.append("fileObj",files[i]);
+		    formData.append("moNum",moNumm);
+		    formData.append("image_count",sel_files.length);
+		    
+		      var xhttp = new XMLHttpRequest();
+		      xhttp.onreadystatechange = function() {
+		          if (this.readyState == 4 && this.status == 200) {
+		        	var fileObj = JSON.parse(xhttp.responseText);
+		             // Typical action to be performed when the document is ready:
+		            var output = xE.d.getElementsByTagName("body")[0];
+		            console.log(fileObj.filesList.length);
+		            // var kk;
+					//for(kk in fileObj.filesList) {
+		        	for(var kk=0; kk < fileObj.filesList.length; kk++) {
+		        		xE.d.querySelectorAll(".divImg")[kk].innerHTML = "";
+			            var img2 = xE.d.createElement("img");
+		         		img2.src = "upload/"+fileObj.filesList[kk].filename;
+		         		img2.id = "upImg"+fileObj.filesList[kk].fileNum;
+		         		img2.className = "upImg";
+		    			img2.height = 100;
+		    			/*
+		   	      		img2.onload = function() {
+		   	       			window.URL.revokeObjectURL(this.src);
+		   	      		}
+		    			*/
+		   	      		xE.d.querySelectorAll(".divImg")[kk].appendChild(img2);
+		   	      		
+		   	      	var inputS = document.createElement("input");
+				      inputS.type = "hidden";
+				      inputS.name = "files";
+				      inputS.value= fileObj.filesList[kk].fileNum;
+				      fileList.appendChild(inputS);
+				      
+				      
+				    }
+				      // output.innerHTML +=  "<br/><img src='upload/"+jobj.filename+"' width='200px' height='auto'><br/>";
+				      
+				      var content2 = xE.d.getElementsByTagName("body")[0].innerHTML;
+						document.forms[0].content.value = content2;	
+		          }
+		      };
+		      xhttp.open("POST", "file.do", false);
+		      xhttp.send(formData);
+		}
+		
 		function formCheck() {
-			insertContent();
+			filesListing();
+			// insertContent();
 			
 			var title = document.forms[0].title.value;
 			var writer = document.forms[0].writer.value;
@@ -181,6 +310,9 @@
 				return false;
 			}
 
+			
+			
+			
 		}
 	</script>
 </body>

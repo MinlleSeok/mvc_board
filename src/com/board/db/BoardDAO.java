@@ -89,6 +89,10 @@ public class BoardDAO extends IbatisDAO {
 		
 	}
 
+	public void deleteFile(int num) throws SQLException {
+		GetDB().delete("deleteFile", num);
+	}
+
 	
 	
 	

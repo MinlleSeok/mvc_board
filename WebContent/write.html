@@ -1,68 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>글쓰기</title>
+<meta charset="UTF-8">
+<title>execCommand test</title>
+<script>
+    var xE = {};
+
+    function xFn(e)
+    {
+        xE.w.focus();
+
+        var c = e.innerHTML,
+            a = c + '<br>queryCommandSupported : ' + xE.d.queryCommandSupported(c);
+
+        e = e.nextSibling;
+        e = e.nodeName.toLowerCase() == 'input' ? e.value : null;
+
+        a += '<br>queryCommandEnabled : ';
+        try { a += xE.d.queryCommandEnabled(c); } catch (x) { a += 'Error : ' + x.message; }
+        a += '<br>queryCommandState : ';
+        try { a += xE.d.queryCommandState(c); } catch (x) { a += 'Error : ' + x.message; }
+        a += '<br>queryCommandValue : ';
+        try { a += xE.d.queryCommandValue(c); } catch (x) { a += 'Error : ' + x.message; }
+        a += '<br>execCommand : ';
+        try { a += xE.d.execCommand(c, false, e); } catch (x) { a += 'Error : ' + x.message; }
+
+        xE.m.innerHTML = a;
+    }
+
+    function xHv()
+    {
+        xE.m.innerHTML =
+            xE.d.body.innerHTML
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+    }
+
+    window.onload = function()
+    {
+        xE.w = document.getElementById('yF').contentWindow;
+        xE.d = xE.w.document;
+
+        xE.d.write('<!DOCTYPE html><html><head></head><body></body></html>');
+        xE.d.designMode = 'on';
+
+        xE.m = document.getElementById('yM');
+
+        xE.w.focus();
+    }
+</script>
 </head>
 <body>
-	<form action="index.html" method="post" onsubmit="return formCheck();">
-		제목 : <input type="text" name="title" /><br/>
-		작성자 : <input type="text" name="writer" /><br/>
-		날짜 : <input type="text" name="regdate" /><br/>
-		내용 : <textarea rows="10" cols="20" name="content"></textarea><br/>
-		<input type="submit" />
-		
-	</form>
-	<script>
-		//alert(document.forms[0].title.name);
-		function formCheck() {
-			// alert(document.forms[0].title.value);
-			
-			var title = document.forms[0].title.value;
-			var writer = document.forms[0].writer.value;
-			var regdate = document.forms[0].regdate.value;
-			var content = document.forms[0].content.value;
-			
-			/* var length = document.forms[0].length-1;
-			
-			for(var i = 0; i < length; i++){
-				if(document.forms[0][i].value == null || document.forms[0][i].value == ""){
-					alert(document.forms[0][i].name +"을/를 입력하세요.");
-					document.forms[0][i].focus();
-					return false;
-				}
-			} */
-			
-			if(title == null || title == ""){
-				alert('제목을 입력하세요');
-				document.forms[0].title.focus();
-				return false;
-			}
-			if (writer == null || writer == ""){
-				alert('작성자를 입력하세요');
-				document.forms[0].writer.focus();
-				return false;
-			} else if(writer.match(/^(\w+)@(\w+)[.](\w+)$/ig) == null){
-				alert('이메일 형식으로 입력하세요');
-				document.forms[0].writer.focus();
-				return false;
-			}
-			if (content == null || content == ""){
-				alert('내용을 입력하세요');
-				document.forms[0].content.focus();
-				return false;
-			}
-			
-			if (regdate == null || regdate == ""){
-				alert('날짜를 입력하세요');
-				document.forms[0].regdate.focus();
-				return false;
-			} else if (regdate.match(/^\d\d\d\d\d\d+$/ig) == null){
-				alert('숫자 형식(6자리)으로 입력하세요');
-				document.forms[0].regdate.focus();
-				return false;
-			}
-		}
-	</script>
+<div style="padding:2px">
+<button type=button onclick="xFn(this)">backColor</button><input type=text size=8>
+<button type=button onclick="xFn(this)">bold</button>
+<button type=button onclick="xFn(this)">copy</button>
+<button type=button onclick="xFn(this)">createLink</button><input type=text size=16>
+<button type=button onclick="xFn(this)">cut</button>
+<button type=button onclick="xFn(this)">decreaseFontSize</button>
+<button type=button onclick="xFn(this)">delete</button>
+<button type=button onclick="xFn(this)">enableInlineTableEditing</button>
+<button type=button onclick="xFn(this)">enableObjectResizing</button>
+<button type=button onclick="xFn(this)">fontName</button><input type=text size=8>
+<button type=button onclick="xFn(this)">fontSize</button><input type=text size=2>
+<button type=button onclick="xFn(this)">foreColor</button><input type=text size=8>
+<button type=button onclick="xFn(this)">formatBlock</button><input type=text size=8>
+<button type=button onclick="xFn(this)">forwardDelete</button>
+<button type=button onclick="xFn(this)">heading</button><input type=text size=3>
+<button type=button onclick="xFn(this)">hiliteColor</button><input type=text size=8>
+<button type=button onclick="xFn(this)">increaseFontSize</button>
+<button type=button onclick="xFn(this)">indent</button>
+<button type=button onclick="xFn(this)">insertBrOnReturn</button>
+<button type=button onclick="xFn(this)">insertHorizontalRule</button>
+<button type=button onclick="xFn(this)">insertHTML</button><input type=text size=16>
+<button type=button onclick="xFn(this)">insertImage</button><input type=text size=16>
+<button type=button onclick="xFn(this)">insertOrderedList</button>
+<button type=button onclick="xFn(this)">insertUnorderedList</button>
+<button type=button onclick="xFn(this)">insertParagraph</button>
+<button type=button onclick="xFn(this)">insertText</button><input type=text size=16>
+<button type=button onclick="xFn(this)">italic</button>
+<button type=button onclick="xFn(this)">justifyCenter</button>
+<button type=button onclick="xFn(this)">justifyFull</button>
+<button type=button onclick="xFn(this)">justifyLeft</button>
+<button type=button onclick="xFn(this)">justifyRight</button>
+<button type=button onclick="xFn(this)">outdent</button>
+<button type=button onclick="xFn(this)">paste</button>
+<button type=button onclick="xFn(this)">redo</button>
+<button type=button onclick="xFn(this)">removeFormat</button>
+<button type=button onclick="xFn(this)">selectAll</button>
+<button type=button onclick="xFn(this)">strikeThrough</button>
+<button type=button onclick="xFn(this)">subscript</button>
+<button type=button onclick="xFn(this)">superscript</button>
+<button type=button onclick="xFn(this)">underline</button>
+<button type=button onclick="xFn(this)">undo</button>
+<button type=button onclick="xFn(this)">unlink</button>
+<button type=button onclick="xHv()">HTML</button>
+</div>
+<iframe id=yF src="about:blank" style="box-sizing:border-box;border:1px solid #999;padding:2px;width:100%;height:150px;"></iframe>
+<div id=yM style="padding:2px"></div>
 </body>
 </html>
+

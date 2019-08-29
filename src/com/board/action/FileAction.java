@@ -40,14 +40,19 @@ public class FileAction implements CommandAction {
 		
 		int userNum = 1;
 		int moNum = 0;
-
+		String[] arr = null;
+		int count = 0;
 		
 		// String regip = request.getRemoteAddr();
 
 		try {
 			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
-
-			filename = multi.getFilesystemName("fileObj");
+			count = Integer.parseInt(multi.getParameter("image_count"));
+			arr = new String[count];
+			for(int i=0; i<count; i++) {
+				arr[i] = multi.getFilesystemName("image_"+i);
+			}
+			
 			moNum = Integer.parseInt(multi.getParameter("moNum"));
 			
 		} catch (Exception e) {
@@ -65,22 +70,30 @@ public class FileAction implements CommandAction {
 		// boolean check = false;
 		// String checkMsg = "";
 
-	
+		int[] fileNums = new int[count];
 			if(filename != null) {
-				
+			for(int i=0; i<count; i++) {	
 			Files file = new Files();
-			file.setFilename(filename);
+			file.setFilename(arr[i]);
 			file.setUserNum(userNum);
 			file.setMoNum(moNum);
 			
-			int fileNum = BoardDAO.getInstance().insertFile(file);
+			fileNums[i] = BoardDAO.getInstance().insertFile(file);
 			
+			}
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			
+			for(int i=0; i<count; i++) {	
 			JSONObject jobj = new JSONObject();
-			jobj.put("filename", filename);
-			jobj.put("fileNum",fileNum);
-			
-			out.print(jobj.toString());
-			
+			jobj.put("filename", arr[i]);
+			jobj.put("fileNum",fileNums[i]);
+			array.add(jobj);
+			System.out.println(arr[i]);
+			}
+			obj.put("filesList",array);
+			out.print(obj.toString());
+			out.flush();
 			}
 
 		//request.setAttribute("page", page);

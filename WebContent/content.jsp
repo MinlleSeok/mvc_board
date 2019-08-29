@@ -84,7 +84,6 @@
 			xE.d.designMode = "on";
 			xE.w.focus();
 			printComment('${article.idx}');
-			
 		}
 		
 		function insertComment(boNum) {
