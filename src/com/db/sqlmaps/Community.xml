@@ -10,7 +10,7 @@
 	
 	<insert id="insertCommunity" parameterClass="com">
 		<![CDATA[
-			INSERT INTO COMMUNITY
+			INSERT INTO community
 				(name, category)
 			VALUES
 				(#name#, #category#)
@@ -18,7 +18,7 @@
 	</insert>
 	
 	<select id="getCommunity" resultClass="com">
-		SELECT * FROM COMMUNITY
+		SELECT * FROM community
 	</select>
 	
 </sqlMap>

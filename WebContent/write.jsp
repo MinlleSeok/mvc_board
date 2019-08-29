@@ -33,6 +33,7 @@
 
 	var xE = {};
 	var sel_files = [];
+	var in_files = [];
 	var index = 0;
 	var filesArr;
 	
@@ -65,14 +66,21 @@
 		  e.preventDefault(); // prevent navigation to "#"
 		}, false);
 		
-		xE.d.addEventListener("keyup", function (event) {
+		xE.d.getElementsByClassName("divImg").addEventListener("keyup", function (event) {
+			var indexx = fileList.getElementsByTagName("ul")[0].lastChild.id.substring(5);
+			console.log("index:"+indexx);
+			console.log(event.target);
+			var result = -1;
+		    var check = false;
+		    
 			  if (event.which === 8 || event.which === 46) {
-			    var result = -1;
-			    var check = false;
-				  for(var z=0; z<index; z++) {
-					  if(xE.d.getElementById("upImg"+z) == null){
+			    
+				  for(var z=0; z<=indexx; z++) {
+					  if(!(xE.d.getElementById("upImg"+z))){
 						  result = z;
+						  console.log("result:"+z);
 						  check = true;
+						  break;
 					  }
 			    }
 			    	if(check) {
@@ -122,7 +130,8 @@
 	    // for (let i = 0; i < files.length; i++) {
 	    filesArr.forEach(function(f) {
 	    	
-	    
+	      
+	      
 	      const li = document.createElement("li");
 	      li.id = "liImg"+index;
 	      li.className = "liImg";
@@ -143,7 +152,7 @@
 	      li.appendChild(info);
 	      
 	   	  sel_files.push(f);
-	   	  index++;
+	   	  index = document.getElementsByClassName("liImg").length;
 	      // var formElement = document.querySelector("form");
 	      // var formData = new FormData(formElement);
 	      /*
