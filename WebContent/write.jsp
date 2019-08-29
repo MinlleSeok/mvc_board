@@ -66,7 +66,7 @@
 		  e.preventDefault(); // prevent navigation to "#"
 		}, false);
 		
-		xE.d.getElementsByClassName("divImg").addEventListener("keyup", function (event) {
+		xE.d.addEventListener("keyup", function (event) {
 			var indexx = fileList.getElementsByTagName("ul")[0].lastChild.id.substring(5);
 			console.log("index:"+indexx);
 			console.log(event.target);
