@@ -2,6 +2,8 @@
 
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<!-- community table SQL 쿼리문 저장소 -->
 
 <sqlMap namespace="Community">
 	<typeAlias alias="str" type="java.lang.String" />
@@ -18,7 +20,9 @@
 	</insert>
 	
 	<select id="getCommunity" resultClass="com">
-		SELECT * FROM community
+		<![CDATA[
+			SELECT * FROM community
+		]]>
 	</select>
 	
 </sqlMap>

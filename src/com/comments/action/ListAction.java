@@ -14,6 +14,10 @@ import com.comments.db.Comments;
 import com.comments.db.CommentsDAO;
 import com.controller.action.CommandAction;
 
+/*
+ * comments List Action - ajax
+ */
+
 public class ListAction implements CommandAction {
 
 	@SuppressWarnings("unchecked")
@@ -53,8 +57,10 @@ public class ListAction implements CommandAction {
 			cObject.put("content", commentsList.get(i).getContent());
 			cObject.put("regdate", commentsList.get(i).getRegdate().toString());
 			cObject.put("reDep", commentsList.get(i).getReDep());
-			int reUserNum = CommentsDAO.getInstance().getCommentUser(commentsList.get(i).getReNum());
-			cObject.put("reUserNum", reUserNum);
+			if(commentsList.get(i).getReNum() > 0){
+				int reUserNum = CommentsDAO.getInstance().getCommentUser(commentsList.get(i).getReNum());
+				cObject.put("reUserNum", reUserNum);
+			}
 			cArray.add(cObject);
 		}
 		obj.put("comments", cArray);

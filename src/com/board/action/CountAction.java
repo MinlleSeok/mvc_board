@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.board.db.Board;
 import com.board.db.BoardDAO;
 import com.controller.action.CommandAction;
-import com.sun.javafx.collections.MappingChange.Map;
+
+/*
+ * board count Action
+ */
 
 public class CountAction implements CommandAction {
 

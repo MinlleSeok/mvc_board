@@ -7,8 +7,13 @@ import java.util.Map;
 
 import com.common.db.IbatisDAO;
 
+/*
+ * comments table DAO
+ */
+
 public class CommentsDAO extends IbatisDAO {
 
+	// 싱글톤 패턴
 	public static CommentsDAO getInstance() {
 		
 		CommentsDAO _instance = new CommentsDAO();
@@ -18,6 +23,10 @@ public class CommentsDAO extends IbatisDAO {
 		return _instance;
 		
 	}
+	
+	/*
+	 * 기능 메서드
+	 */
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Comments> getCommentsList(HashMap<String, Object> map, int page) throws SQLException {

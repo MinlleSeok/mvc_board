@@ -7,10 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.board.db.BoardDAO;
 import com.comments.db.Comments;
 import com.comments.db.CommentsDAO;
 import com.controller.action.CommandAction;
+
+/*
+ * comments Bring Action - ajax
+ */
 
 public class BringAction implements CommandAction {
 

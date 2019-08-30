@@ -10,10 +10,10 @@ import com.board.db.BoardDAO;
 import com.controller.action.CommandAction;
 
 /*
- * board insert Action
+ * board ModifyFinish Action
  */
 
-public class InsertAction implements CommandAction {
+public class ModifyFinishAction implements CommandAction {
 
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
@@ -27,17 +27,21 @@ public class InsertAction implements CommandAction {
 		response.setCharacterEncoding("UTF-8");
 
 		int count = 0;
+		String title = "";
+		String content = "";
 		int moNum = 0;
 		int pin = 0;
-		String title = request.getParameter("title"); // "제목입니다.";
-		String writer = request.getParameter("writer"); // "작성자이름";
-		String content = request.getParameter("content");
-		String[] files2 = request.getParameterValues("files");
-		String regip = request.getRemoteAddr();
 
-		if (request.getParameter("moNumm") != null && !(request.getParameter("moNumm").trim().equals(""))
-				&& !(request.getParameter("moNumm").trim().equals("null"))) {
-			moNum = Integer.parseInt(request.getParameter("moNumm"));
+		String[] files2 = request.getParameterValues("files");
+		
+		String regip = request.getRemoteAddr();
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		title = request.getParameter("title"); // "제목입니다.";
+		content = request.getParameter("content");
+
+		if (request.getParameter("moNum") != null && !(request.getParameter("moNum").trim().equals(""))
+				&& !(request.getParameter("moNum").trim().equals("null"))) {
+			moNum = Integer.parseInt(request.getParameter("moNum"));
 		}
 
 		if (request.getParameter("pin") != null && !(request.getParameter("pin").trim().equals(""))
@@ -61,10 +65,6 @@ public class InsertAction implements CommandAction {
 			check = true;
 		}
 
-		if (writer == "" || writer == null) {
-			checkMsg += "writer가 null입니다. \\n";
-			check = true;
-		}
 
 		if (content == "" || content == null) {
 			checkMsg += "content가 null입니다.";
@@ -84,12 +84,11 @@ public class InsertAction implements CommandAction {
 			article.setCount(count);
 			article.setRegip(regip);
 			article.setTitle(title);
-			article.setWriter(writer);
 			article.setMoNum(moNum);
 			article.setPin(pin);
+			article.setIdx(idx);
 
-
-			BoardDAO.getInstance().insertArticle(article);
+			BoardDAO.getInstance().updateArticle(article);
 
 			if (request.getParameterValues("files") != null) {
 				int[] files = new int[files2.length];

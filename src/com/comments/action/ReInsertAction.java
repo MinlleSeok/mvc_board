@@ -3,13 +3,13 @@ package com.comments.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import com.comments.db.Comments;
 import com.comments.db.CommentsDAO;
 import com.controller.action.CommandAction;
 
+/*
+ * comments ReInsert Action - ajax
+ */
 
 public class ReInsertAction implements CommandAction{
 

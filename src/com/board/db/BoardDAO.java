@@ -8,9 +8,13 @@ import java.util.Map;
 import com.comments.db.Comments;
 import com.common.db.IbatisDAO;
 
+/*
+ * board table DAO
+ */
 
 public class BoardDAO extends IbatisDAO {
 
+	// 싱글톤 패턴
 	public static BoardDAO getInstance() {
 		
 		BoardDAO _instance = new BoardDAO();
@@ -20,6 +24,10 @@ public class BoardDAO extends IbatisDAO {
 		return _instance;
 		
 	}
+	
+	/*
+	 * 기능 메서드
+	 */
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Board> getArticleList(int page, int moNum) throws SQLException {
@@ -93,9 +101,8 @@ public class BoardDAO extends IbatisDAO {
 		GetDB().delete("deleteFile", num);
 	}
 
-	
-	
-	
-	
-	
+	public void updateArticle(Board article) throws SQLException {
+		GetDB().update("updateArticle", article);
+	}
+
 }

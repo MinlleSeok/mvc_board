@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>location.href="list.do"; </script> 
+<script>location.href="list.bo"; </script> 
 </body>
 </html>

@@ -9,6 +9,10 @@ import com.board.db.Board;
 import com.board.db.BoardDAO;
 import com.controller.action.CommandAction;
 
+/*
+ * board list Action
+ */
+
 public class ListAction implements CommandAction {
 
 	@Override
@@ -18,17 +22,6 @@ public class ListAction implements CommandAction {
 		
 		
 		String page2 = request.getParameter("page") == null ? "0" : request.getParameter("page");
-		//String moNum2 = request.getParameter("moNum") == null ? "0" : request.getParameter("moNum");
-		
-		/*
-		if(page2 == null || page2.trim().equals("") || page2.trim().equals("null")) {
-			page2 = "0";
-		}
-		
-		if(moNum2 == null || moNum2.trim().equals("") || moNum2.trim().equals("null")) {
-			moNum2 = "0";
-		}
-		*/
 		
 		int page = Integer.parseInt(page2);
 		int moNum = Integer.parseInt(request.getParameter("moNum"));

@@ -1,11 +1,24 @@
 package com.beans;
 
+/*
+ * member table DTO / VO / Bean 
+
+create table member (
+	idx int primary key auto_increment,
+	name varchar(30) not null,
+	user_id varchar(30) not null,
+	user_pw varchar(30) not null
+);
+
+ */
+
 public class Member {
 
 	private int idx;
 	private String name;
 	private String user_id;
 	private String user_pw;
+	
 	public int getIdx() {
 		return idx;
 	}

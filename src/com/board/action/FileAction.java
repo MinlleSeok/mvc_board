@@ -2,8 +2,6 @@ package com.board.action;
 
 
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +15,13 @@ import com.controller.action.CommandAction;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+/*
+ * board File upload Action - ajax
+ */
+
 public class FileAction implements CommandAction {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		
@@ -47,13 +49,15 @@ public class FileAction implements CommandAction {
 
 		try {
 			multi = new MultipartRequest(request, savePath, sizeLimit, "UTF-8", new DefaultFileRenamePolicy());
+			
 			count = Integer.parseInt(multi.getParameter("image_count"));
 			arr = new String[count];
+			
 			for(int i=0; i<count; i++) {
 				arr[i] = multi.getFilesystemName("image_"+i);
 			}
 			
-			moNum = Integer.parseInt(multi.getParameter("moNum"));
+			moNum = Integer.parseInt(multi.getParameter("moNumm"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

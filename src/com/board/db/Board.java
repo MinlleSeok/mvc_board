@@ -2,6 +2,25 @@ package com.board.db;
 
 import java.sql.Timestamp;
 
+/*
+ * comments table DTO / VO / Bean
+
+create table board (
+	idx int primary key auto_increment,
+	title varchar(30) not null,
+	writer varchar(30) not null,
+	regdate timestamp not null,
+	count int,
+	content text not null,
+	regip varchar(50) not null,
+	filename varchar(100),
+	thumbImg varchar(100),
+	moNum int not null,
+	pin int default 0
+);
+
+ */
+
 public class Board {
 
 	private int idx;

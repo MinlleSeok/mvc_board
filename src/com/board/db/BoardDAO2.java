@@ -6,8 +6,13 @@ import java.util.ArrayList;
 
 import com.common.db.CommonDAO;
 
+/*
+ * board table DAO2 - test
+ */
+
 public class BoardDAO2 extends CommonDAO {
 
+	// 싱글톤 패턴
 	public static BoardDAO2 getInstance() {
 		
 		BoardDAO2 _instance = new BoardDAO2();
@@ -15,6 +20,10 @@ public class BoardDAO2 extends CommonDAO {
 		return _instance;
 		
 	}
+	
+	/*
+	 * 기능 메서드
+	 */
 	
 	public ArrayList<Board> getArticleList() throws SQLException {
 		

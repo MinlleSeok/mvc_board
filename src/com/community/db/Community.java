@@ -1,5 +1,16 @@
 package com.community.db;
 
+/*
+ * community table DTO / VO / Bean 
+
+create table community (
+	num int primary key auto_increment,
+	name varchar(30) not null,
+	category varchar(30) not null
+);
+
+ */
+
 public class Community {
 
 	private int num;

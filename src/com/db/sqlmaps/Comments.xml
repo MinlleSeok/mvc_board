@@ -2,6 +2,8 @@
 
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<!-- comments table SQL 쿼리문 저장소 -->
 
 <sqlMap namespace="Comments">
 	<typeAlias alias="str" type="java.lang.String" />
@@ -11,7 +13,7 @@
 	
 	<select id="getCommentsList" parameterClass="hmap" resultClass="comment" remapResults="true">
 		<![CDATA[
-		SELECT * FROM comments WHERE boNum = #boNum# and moNum = #moNum# ORDER BY reNum ASC, regdate ASC, reOdr ASC
+			SELECT * FROM comments WHERE boNum = #boNum# and moNum = #moNum# ORDER BY reNum ASC, regdate ASC, reOdr ASC
 		]]>
 	</select>
 	
@@ -23,32 +25,32 @@
 	
 	<select id="bringComment" parameterClass="hmap" resultClass="comment" remapResults="true">
 		<![CDATA[
-		SELECT * FROM comments where boNum = #boNum# and num = #num# and moNum = #moNum#
+			SELECT * FROM comments where boNum = #boNum# and num = #num# and moNum = #moNum#
 		]]>
 	</select>
 	
 	<insert id="insertComment" parameterClass="comment">
 		<![CDATA[
-		INSERT INTO COMMENTS
-			(moNum, boNum, userNum, content, regdate)
-		VALUES
-			(#moNum#, #boNum#, #userNum#, #content#, now())
+			INSERT INTO comments
+				(moNum, boNum, userNum, content, regdate, reNum, reDep, reOdr)
+			VALUES
+				(#moNum#, #boNum#, #userNum#, #content#, now(), 0, 0, 0)
 		]]>
 	</insert>
 	
 	<update id="updateComment">
 		<![CDATA[
-		UPDATE COMMENTS
-			SET		reNum = LAST_INSERT_ID()
-			        ,reDep = 0
-			        ,reOdr = 0
-			WHERE	num = LAST_INSERT_ID()
+			UPDATE comments
+			SET reNum = LAST_INSERT_ID(),
+				reDep = 0,
+				reOdr = 0
+			WHERE num = LAST_INSERT_ID()
 		]]>
 	</update>
 	
 	<update id="modifyComment" parameterClass="comment">
 		<![CDATA[
-			UPDATE COMMENTS
+			UPDATE comments
 			SET content = #content#
 			WHERE num = #num#
 			AND moNum = #moNum#
@@ -58,22 +60,22 @@
 
 	<insert id="insertReComment" parameterClass="comment">
 		<![CDATA[
-		INSERT INTO COMMENTS
-			(moNum, boNum, userNum, content, regdate, reNum)
-		VALUES
-			(#moNum#, #boNum#, #userNum#, #content#, now(), #reNum#)
+			INSERT INTO comments
+				(moNum, boNum, userNum, content, regdate, reNum)
+			VALUES
+				(#moNum#, #boNum#, #userNum#, #content#, now(), #reNum#)
 			]]>
 	</insert>
 	
 	<select id="selectReDepOdr" parameterClass="hmap" resultClass="int" remapResults="true">
 		<![CDATA[
-		select reDep from comments where num = #reNum# and moNum = #moNum# and boNum = #boNum#
+			select reDep from comments where num = #reNum# and moNum = #moNum# and boNum = #boNum#
 		]]>
 	</select>
 	
 	<update id="updateReComment" parameterClass="hmap">
 		<![CDATA[
-		UPDATE	COMMENTS
+			UPDATE	comments
 			SET		reDep = #sum#+1
 					, reOdr = #reNum#
 			WHERE	num = LAST_INSERT_ID()
@@ -83,7 +85,7 @@
 	
 	<delete id="deleteComment" parameterClass="hmap">
 		<![CDATA[
-		DELETE FROM comments WHERE num = #num# AND boNum = #boNum# AND moNum = #moNum#
+			DELETE FROM comments WHERE num = #num# AND boNum = #boNum# AND moNum = #moNum#
 		]]>
 	</delete>
 	

@@ -13,6 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ *	ControllerAction 
+ *	
+ *	Command.properties 파일 에서 키/값 불러와 주소값 자동 처리
+ *
+ */
+
+@SuppressWarnings("serial")
 public class ControllerAction extends HttpServlet {
 	
 	private Map commandMap = new HashMap(); // 명령어와 명령어 처리 클래스를 쌍으로 저장

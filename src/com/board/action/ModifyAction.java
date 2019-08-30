@@ -11,6 +11,10 @@ import com.board.db.BoardDAO;
 import com.board.db.Files;
 import com.controller.action.CommandAction;
 
+/*
+ * board modify Action
+ */
+
 public class ModifyAction implements CommandAction {
 
 	@Override

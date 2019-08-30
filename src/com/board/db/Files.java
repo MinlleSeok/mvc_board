@@ -1,5 +1,18 @@
 package com.board.db;
 
+/*
+ *	files table DTO / VO / Bean
+
+create table files (
+	num int primary key auto_increment,
+	userNum int,
+	boNum int,
+	filename varchar(100),
+	moNum int
+);
+
+ */
+
 public class Files {
 
 	private int num;

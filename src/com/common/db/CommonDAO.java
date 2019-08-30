@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+/*
+ * CommonDAO 모두가 공통으로 사용하는 DAO (싱글톤 패턴 구현)
+ */
+
 public class CommonDAO {
 
 	private final String driverName = "oracle.jdbc.driver.OracleDriver";

@@ -7,6 +7,10 @@ import com.community.db.Community;
 import com.community.db.CommunityDAO;
 import com.controller.action.CommandAction;
 
+/*
+ * community requestBoard Action
+ */
+
 public class RequestBoardAction implements CommandAction {
 
 	@Override

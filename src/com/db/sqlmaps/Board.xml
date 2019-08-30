@@ -2,6 +2,8 @@
 
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<!-- board table SQL 쿼리문 저장소 -->
 
 <sqlMap namespace="Board">
 	<typeAlias alias="str" type="java.lang.String" />
@@ -9,7 +11,6 @@
 	<typeAlias alias="int" type="java.lang.Integer" />
 	<typeAlias alias="board" type="com.board.db.Board" />
 	<typeAlias alias="file" type="com.board.db.Files" />
-	
 	
 	<select id="getArticleList" remapResults="true" resultClass="board">
 		<![CDATA[
@@ -32,6 +33,15 @@
 			]]>
 	</insert>
 	
+	<update id="updateArticle" parameterClass="board">
+		<![CDATA[
+			UPDATE mvcboard
+			SET title = #title#, 
+				content = #content#
+			WHERE idx = #idx#
+		]]>
+	</update>
+	
 	<update id="updateFile">
 		<![CDATA[
 			UPDATE files
@@ -42,7 +52,7 @@
 	
 	<insert id="insertFile" parameterClass="file">
 		<![CDATA[
-		INSERT INTO FILES
+		INSERT INTO files
 			(userNum, filename, moNum)
 		VALUES
 			(#userNum#, #filename#, #moNum#)
@@ -68,19 +78,27 @@
 	</select>
 	
 	<select id="sequence" resultClass="int">
-		select LAST_INSERT_ID() from dual
+		<![CDATA[
+			select LAST_INSERT_ID() from dual
+		]]>
 	</select>
 	
 	<update id="setArticleCount" parameterClass="board">
-		update mvcboard set count = #count# where idx = #idx#
+		<![CDATA[
+			update mvcboard set count = #count# where idx = #idx#
+		]]>
 	</update>
 	
 	<delete id="deleteArticle" parameterClass="int">
-		delete from mvcboard where idx = #idx#
+		<![CDATA[
+			delete from mvcboard where idx = #idx#
+		]]>
 	</delete>
 	
 	<delete id="deleteFile" parameterClass="int">
+		<![CDATA[
 		delete from files where num = #num#
+		]]>
 	</delete>
 
 </sqlMap>

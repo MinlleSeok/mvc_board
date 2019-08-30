@@ -6,6 +6,10 @@ import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
 
+/*
+ *	iBatis 기본 설정 페이지 
+ */
+
 public final class IBatisDBConnector {
 	
 	private static SqlMapClient mySQLMap;

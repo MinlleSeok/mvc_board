@@ -2,13 +2,30 @@ package com.comments.db;
 
 import java.sql.Timestamp;
 
+/*
+ * comments table DTO / VO / Bean 
+
+create table comments (
+	num int primary key auto_increment,
+	boNum int,
+	userNum int,
+	content text,
+	regdate timestamp,
+	reNum int,
+	reDep int,
+	reOdr int,
+	moNum int
+);
+
+ */
+
 public class Comments {
 	
 	private int num;
 	private int boNum;
 	private int userNum;
 	private String content;
-	private Timestamp regdate;
+	private Timestamp regdate;		
 	private int reNum;
 	private int reDep;
 	private int reOdr;
