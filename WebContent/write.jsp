@@ -7,6 +7,7 @@
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="css/write.css">
 <script src="js/write.js"></script>
+<script src="js/function.js"></script>
 </head>
 <body>
 	<form action="insert.do" method="post" id="fr" onsubmit='return filesListing();'>

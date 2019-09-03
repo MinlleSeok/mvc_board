@@ -14,19 +14,19 @@
 	
 	<select id="getArticleList" remapResults="true" resultClass="board">
 		<![CDATA[
-			SELECT * from mvcboard WHERE moNum = #moNum# ORDER BY pin DESC, idx DESC
+			SELECT * from board WHERE moNum = #moNum# ORDER BY pin DESC, idx DESC
 		]]>
 	</select>
 	
 	<select id="getArticle" parameterClass="hmap" resultClass="board">
 		<![CDATA[
-			select * from mvcboard where idx = #idx# and moNum = #moNum#
+			select * from board where idx = #idx# and moNum = #moNum#
 		]]>
 	</select>
 	
 	<insert id="insertArticle" parameterClass="board">
 		<![CDATA[
-		INSERT INTO mvcboard
+		INSERT INTO board
 			(title, writer, regdate, count, content, regip, filename, moNum, pin)
 		VALUES
 			(#title#, #writer#, now(), #count#, #content#, #regip#, #filename#, #moNum#, #pin#)
@@ -35,7 +35,7 @@
 	
 	<update id="updateArticle" parameterClass="board">
 		<![CDATA[
-			UPDATE mvcboard
+			UPDATE board
 			SET title = #title#, 
 				content = #content#
 			WHERE idx = #idx#
@@ -85,13 +85,13 @@
 	
 	<update id="setArticleCount" parameterClass="board">
 		<![CDATA[
-			update mvcboard set count = #count# where idx = #idx#
+			update board set count = #count# where idx = #idx#
 		]]>
 	</update>
 	
 	<delete id="deleteArticle" parameterClass="int">
 		<![CDATA[
-			delete from mvcboard where idx = #idx#
+			delete from board where idx = #idx#
 		]]>
 	</delete>
 	
