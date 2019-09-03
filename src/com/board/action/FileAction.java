@@ -1,6 +1,7 @@
 package com.board.action;
 
 
+import java.io.File;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.board.addon.Thumbnail;
 import com.board.db.BoardDAO;
 import com.board.db.Files;
 import com.controller.action.CommandAction;
@@ -55,6 +57,8 @@ public class FileAction implements CommandAction {
 			
 			for(int i=0; i<count; i++) {
 				arr[i] = multi.getFilesystemName("image_"+i);
+				File destFile = new File(savePath+"/tn_"+arr[i]);
+				Thumbnail.resize(multi.getFile("image_"+i), destFile, 100, Thumbnail.RATIO);
 			}
 			
 			moNum = Integer.parseInt(multi.getParameter("moNumm"));
